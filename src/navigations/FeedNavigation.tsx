@@ -4,6 +4,7 @@ import FeedFavoriteScreen from '../screens/feed/FeedFavoriteScreen';
 import EditLocationScreen from '../screens/feed/EditLocationScreen';
 import FeedDetailScreen from '../screens/feed/FeedDetailScreen';
 import FeedListScreen from '../screens/feed/FeedListScreen';
+import DrawerButton from '../components/DrawerButton';
 import {colors} from '../constants/colors';
 
 const FeedStack = createStackNavigator({
@@ -25,6 +26,10 @@ const FeedStack = createStackNavigator({
   screens: {
     FeedList: {
       screen: FeedListScreen,
+      options: {
+        title: '피드',
+        headerLeft: () => <DrawerButton />,
+      },
     },
     FeedDetail: {
       screen: FeedDetailScreen,
