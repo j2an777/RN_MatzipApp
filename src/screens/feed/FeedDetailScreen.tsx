@@ -1,7 +1,7 @@
 import {StackScreenProps} from '@react-navigation/stack';
 import {SafeAreaView, Text} from 'react-native';
 
-import {FeedStackParamList} from '../../types/navigation';
+import {FeedStackParamList} from '@/types/navigation';
 
 type Props = StackScreenProps<FeedStackParamList, 'FeedDetail'>;
 

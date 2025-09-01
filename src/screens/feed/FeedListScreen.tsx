@@ -2,7 +2,7 @@ import {StackNavigationProp} from '@react-navigation/stack';
 import {useNavigation} from '@react-navigation/native';
 import {SafeAreaView, Text} from 'react-native';
 
-import {FeedStackParamList} from '../../types/navigation';
+import {FeedStackParamList} from '@/types/navigation';
 
 type Navigation = StackNavigationProp<FeedStackParamList>;
 

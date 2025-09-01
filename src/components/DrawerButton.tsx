@@ -3,8 +3,8 @@ import Ionicons from '@react-native-vector-icons/ionicons';
 import {useNavigation} from '@react-navigation/native';
 import {Pressable, StyleSheet} from 'react-native';
 
-import {MainDrawerParamList} from '../types/navigation';
-import {colors} from '../constants/colors';
+import {MainDrawerParamList} from '@/types/navigation';
+import {colors} from '@/constants/colors';
 
 type Navigation = DrawerNavigationProp<MainDrawerParamList>;
 

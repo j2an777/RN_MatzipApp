@@ -1,12 +1,12 @@
 import {createStaticNavigation} from '@react-navigation/native';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 
-import CustomDrawerContent from '../components/CustomDrawerContent';
-import CalendarScreen from '../screens/calendar/CalendarScreen';
-import {MainDrawerParamList} from '../types/navigation';
-import DrawerButton from '../components/DrawerButton';
-import DrawerIcons from '../hooks/drawerIcons';
-import {colors} from '../constants/colors';
+import CustomDrawerContent from '@/components/CustomDrawerContent';
+import CalendarScreen from '@/screens/calendar/CalendarScreen';
+import {MainDrawerParamList} from '@/types/navigation';
+import DrawerButton from '@/components/DrawerButton';
+import DrawerIcons from '@/hooks/drawerIcons';
+import {colors} from '@/constants/colors';
 
 import FeedStack from './FeedNavigation';
 import MapStack from './MapNavigation';
