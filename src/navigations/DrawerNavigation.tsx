@@ -5,7 +5,7 @@ import CustomDrawerContent from '@/components/CustomDrawerContent';
 import CalendarScreen from '@/screens/calendar/CalendarScreen';
 import {MainDrawerParamList} from '@/types/navigation';
 import DrawerButton from '@/components/DrawerButton';
-import DrawerIcons from '@/hooks/drawerIcons';
+import DrawerIcons from '@/components/DrawerIcons';
 import {colors} from '@/constants/colors';
 
 import FeedStack from './FeedNavigation';
