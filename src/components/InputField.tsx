@@ -4,16 +4,19 @@ import {colors} from '@/constants/colors';
 
 interface InputFieldProps extends TextInputProps {
   errorMessage?: string;
+  touched?: boolean;
 }
 
-const InputField = ({errorMessage, ...props}: InputFieldProps) => {
+const InputField = ({errorMessage, touched, ...props}: InputFieldProps) => {
   return (
     <View>
       <TextInput
-        style={[styles.input, errorMessage && styles.inputError]}
+        style={[styles.input, touched && errorMessage && styles.inputError]}
         {...props}
       />
-      {errorMessage && <Text style={styles.errorText}>{errorMessage}</Text>}
+      {touched && errorMessage && (
+        <Text style={styles.errorText}>{errorMessage}</Text>
+      )}
     </View>
   );
 };
