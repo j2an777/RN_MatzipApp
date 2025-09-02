@@ -1,14 +1,15 @@
 import { useMutation, useQuery } from '@tanstack/react-query';
+import { useEffect } from 'react';
 
-import { getAccessToken, postLogin, postSignup } from '@/api/auth';
 import {
   removeEncryptStorage,
   setEncryptStorage,
 } from '@/utils/encryptStorage';
-import { UseMutationCustomOptions } from '@/types/api';
-import { numbers } from '@/constants/numbers';
+import { getAccessToken, getProfile, postLogin, postSignup } from '@/api/auth';
+import { UseMutationCustomOptions, UseQueryCustomOptions } from '@/types/api';
 import { removeHeader, setHeader } from '@/utils/header';
-import { useEffect } from 'react';
+import { numbers } from '@/constants/numbers';
+import { Profile } from '@/types/domain';
 
 const useSignup = (mutationOptions?: UseMutationCustomOptions) => {
   return useMutation({
@@ -55,6 +56,16 @@ const useGetRefreshToken = () => {
       }
     })();
   }, [isError]);
+
+  return { isSuccess, isError };
 };
 
-export { useSignup, useLogin, useGetRefreshToken };
+const useGetProfile = (queryOptions?: UseQueryCustomOptions<Profile>) => {
+  return useQuery({
+    queryFn: getProfile,
+    queryKey: ['auth', 'getProfile'],
+    ...queryOptions,
+  });
+};
+
+export { useSignup, useLogin, useGetRefreshToken, useGetProfile };
