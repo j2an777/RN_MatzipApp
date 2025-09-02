@@ -1,11 +1,9 @@
-interface ValidationUserProps {
+type ValidationUserProps = {
   email: string;
   password: string;
-}
+};
 
-interface ValidationSignupProps extends ValidationUserProps {
-  passwordConfirm: string;
-}
+type ValidationSignupProps = ValidationUserProps & { passwordConfirm: string };
 
 const validateUser = (values: ValidationUserProps) => {
   const errors = {
