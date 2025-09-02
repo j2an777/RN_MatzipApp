@@ -21,6 +21,7 @@ const SignupScreen = () => {
         <InputField
           placeholder="이메일"
           touched={signup.touched.email}
+          errorMessage={signup.errors.email}
           {...signup.getTextInputProps('email')}
         />
         <InputField
@@ -28,12 +29,14 @@ const SignupScreen = () => {
           textContentType="oneTimeCode"
           placeholder="비밀번호"
           touched={signup.touched.password}
+          errorMessage={signup.errors.password}
           {...signup.getTextInputProps('password')}
         />
         <InputField
           secureTextEntry
           placeholder="비밀번호 확인"
           touched={signup.touched.passwordConfirm}
+          errorMessage={signup.errors.passwordConfirm}
           {...signup.getTextInputProps('passwordConfirm')}
         />
       </View>
