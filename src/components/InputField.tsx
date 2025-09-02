@@ -1,16 +1,33 @@
-import {StyleSheet, Text, TextInput, TextInputProps, View} from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  TextInput,
+  TextInputProps,
+  View,
+} from 'react-native';
+import { Ref } from 'react';
 
-import {colors} from '@/constants/colors';
+import { colors } from '@/constants/colors';
 
 interface InputFieldProps extends TextInputProps {
+  ref?: Ref<TextInput>;
   errorMessage?: string;
   touched?: boolean;
 }
 
-const InputField = ({errorMessage, touched, ...props}: InputFieldProps) => {
+const InputField = ({
+  ref,
+  errorMessage,
+  touched,
+  ...props
+}: InputFieldProps) => {
   return (
     <View>
       <TextInput
+        ref={ref}
+        autoCapitalize="none"
+        spellCheck={false}
+        autoCorrect={false}
         style={[styles.input, touched && errorMessage && styles.inputError]}
         {...props}
       />
