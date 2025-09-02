@@ -1,8 +1,8 @@
-import {SafeAreaView, StyleSheet, View} from 'react-native';
+import { SafeAreaView, StyleSheet, View } from 'react-native';
 
 import CustomButton from '@/components/CustomButton';
+import { validationLogin } from '@/utils/validation';
 import InputField from '@/components/InputField';
-import validation from '@/utils/validation';
 import useForm from '@/hooks/useForm';
 
 const LoginScreen = () => {
@@ -11,7 +11,7 @@ const LoginScreen = () => {
       email: '',
       password: '',
     },
-    validate: validation,
+    validate: validationLogin,
   });
 
   return (

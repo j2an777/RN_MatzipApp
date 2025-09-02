@@ -1,8 +1,8 @@
-import {SafeAreaView, StyleSheet, View} from 'react-native';
+import { SafeAreaView, StyleSheet, View } from 'react-native';
 
 import CustomButton from '@/components/CustomButton';
+import { validationSignup } from '@/utils/validation';
 import InputField from '@/components/InputField';
-import validation from '@/utils/validation';
 import useForm from '@/hooks/useForm';
 
 const SignupScreen = () => {
@@ -12,7 +12,7 @@ const SignupScreen = () => {
       password: '',
       passwordConfirm: '',
     },
-    validate: validation,
+    validate: validationSignup,
   });
 
   return (
