@@ -4,9 +4,11 @@ import { useRef } from 'react';
 import CustomButton from '@/components/CustomButton';
 import { validationLogin } from '@/utils/validation';
 import InputField from '@/components/InputField';
+import useAuth from '@/hooks/queries/useAuth';
 import useForm from '@/hooks/useForm';
 
 const LoginScreen = () => {
+  const { loginMutation } = useAuth();
   const passwordRef = useRef<TextInput | null>(null);
 
   const login = useForm({
@@ -17,7 +19,9 @@ const LoginScreen = () => {
     validate: validationLogin,
   });
 
-  const handleSubmit = () => {};
+  const handleSubmit = () => {
+    loginMutation.mutate(login.values);
+  };
 
   return (
     <SafeAreaView style={styles.container}>
