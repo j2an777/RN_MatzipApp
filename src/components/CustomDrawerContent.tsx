@@ -1,9 +1,4 @@
 import {
-  DrawerContentComponentProps,
-  DrawerContentScrollView,
-  DrawerItemList,
-} from '@react-navigation/drawer';
-import {
   Image,
   Pressable,
   SafeAreaView,
@@ -11,10 +6,18 @@ import {
   Text,
   View,
 } from 'react-native';
+import {
+  DrawerContentComponentProps,
+  DrawerContentScrollView,
+  DrawerItemList,
+} from '@react-navigation/drawer';
 
-import {colors} from '@/constants/colors';
+import useAuth from '@/hooks/queries/useAuth';
+import { colors } from '@/constants/colors';
 
 const CustomDrawerContent = (props: DrawerContentComponentProps) => {
+  const { auth } = useAuth();
+
   return (
     <SafeAreaView style={styles.container}>
       <DrawerContentScrollView
@@ -28,7 +31,7 @@ const CustomDrawerContent = (props: DrawerContentComponentProps) => {
               style={styles.userImage}
             />
           </View>
-          <Text style={styles.nickname}>닉네임</Text>
+          <Text style={styles.nickname}>{auth.nickname}</Text>
         </Pressable>
         <DrawerItemList {...props} />
       </DrawerContentScrollView>
