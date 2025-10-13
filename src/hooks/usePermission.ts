@@ -2,20 +2,32 @@ import { check, PERMISSIONS, request, RESULTS } from 'react-native-permissions';
 import { Alert, Linking, Platform } from 'react-native';
 import { useEffect } from 'react';
 
-const usePermission = async () => {
+import { alerts } from '@/constants/messages';
+
+type PermissionType = 'LOCATION' | 'PHOTO';
+
+const androidPermissions = {
+  LOCATION: PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION,
+  PHOTO: PERMISSIONS.ANDROID.READ_MEDIA_IMAGES,
+};
+
+const iosPermissions = {
+  LOCATION: PERMISSIONS.IOS.LOCATION_WHEN_IN_USE,
+  PHOTO: PERMISSIONS.IOS.MEDIA_LIBRARY,
+};
+
+const usePermission = async (type: PermissionType) => {
   useEffect(() => {
     (async () => {
       const isAndroid = Platform.OS === 'android';
-      const permissionOS = isAndroid
-        ? PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION
-        : PERMISSIONS.IOS.LOCATION_WHEN_IN_USE;
+      const permissionOS = isAndroid ? androidPermissions : iosPermissions;
 
-      const checked = await check(permissionOS);
+      const checked = await check(permissionOS[type]);
 
       const showPermissionAllert = () => {
         Alert.alert(
-          '위치 권한 허용이 필요합니다.',
-          '설정 화면에서 위치 권한을 허용해주세요.',
+          alerts[`${type}_PERMISSION`].TITLE,
+          alerts[`${type}_PERMISSION`].DESCRIPTION,
           [
             { text: '설정하기', onPress: () => Linking.openSettings() },
             { text: '취소', style: 'cancel' },
@@ -29,7 +41,7 @@ const usePermission = async () => {
             showPermissionAllert();
             return;
           }
-          await request(permissionOS);
+          await request(permissionOS[type]);
           break;
         case RESULTS.BLOCKED:
         case RESULTS.LIMITED:
