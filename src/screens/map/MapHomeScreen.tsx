@@ -1,12 +1,33 @@
+import MapView, { LatLng, PROVIDER_GOOGLE } from 'react-native-maps';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
-import { StyleSheet } from 'react-native';
+import FontAwesome6 from '@react-native-vector-icons/fontawesome6';
+import { Pressable, StyleSheet, View } from 'react-native';
+import { useRef } from 'react';
 
+import useUserLocation from '@/hooks/useUserLocation';
 import DrawerButton from '@/components/DrawerButton';
+import { numbers } from '@/constants/numbers';
 import { colors } from '@/constants/colors';
 
 const MapHomeScreen = () => {
+  const { userLocation, isUserLocationError } = useUserLocation();
+  const mapRef = useRef<MapView | null>(null);
   const inset = useSafeAreaInsets();
+
+  const moveMapView = (coordinate: LatLng) => {
+    mapRef.current?.animateToRegion({
+      ...coordinate,
+      ...numbers.INITIAL_DELTA,
+    });
+  };
+
+  const handlePressUserLocation = () => {
+    if (isUserLocationError) {
+      return;
+    }
+
+    moveMapView(userLocation);
+  };
 
   return (
     <>
@@ -14,7 +35,25 @@ const MapHomeScreen = () => {
         style={[styles.drawerButton, { top: inset.top + 10 }]}
         color={colors.WHITE}
       />
-      <MapView style={styles.container} provider={PROVIDER_GOOGLE} />
+      <MapView
+        style={styles.container}
+        ref={mapRef}
+        provider={PROVIDER_GOOGLE}
+        region={{
+          ...userLocation,
+          ...numbers.INITIAL_DELTA,
+        }}
+      />
+      <View style={styles.buttonList}>
+        <Pressable style={styles.mapButton} onPress={handlePressUserLocation}>
+          <FontAwesome6
+            iconStyle="solid"
+            size={25}
+            color={colors.WHITE}
+            name="location-crosshairs"
+          />
+        </Pressable>
+      </View>
     </>
   );
 };
@@ -33,6 +72,22 @@ const styles = StyleSheet.create({
     backgroundColor: colors.PINK_700,
     borderTopRightRadius: 50,
     borderBottomRightRadius: 50,
+    boxShadow: '1px 1px 3px rgba(0, 0, 0, 0.5)',
+  },
+  buttonList: {
+    position: 'absolute',
+    bottom: 30,
+    right: 20,
+    zIndex: 1,
+  },
+  mapButton: {
+    backgroundColor: colors.PINK_700,
+    marginVertical: 5,
+    width: 45,
+    height: 45,
+    borderRadius: 50,
+    justifyContent: 'center',
+    alignItems: 'center',
     boxShadow: '1px 1px 3px rgba(0, 0, 0, 0.5)',
   },
 });
