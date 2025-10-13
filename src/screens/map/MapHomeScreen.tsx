@@ -2,6 +2,7 @@ import MapView, { LatLng, PROVIDER_GOOGLE } from 'react-native-maps';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import FontAwesome6 from '@react-native-vector-icons/fontawesome6';
 import { Pressable, StyleSheet, View } from 'react-native';
+import Toast from 'react-native-toast-message';
 import { useRef } from 'react';
 
 import useUserLocation from '@/hooks/useUserLocation';
@@ -25,6 +26,11 @@ const MapHomeScreen = () => {
 
   const handlePressUserLocation = () => {
     if (isUserLocationError) {
+      Toast.show({
+        type: 'error',
+        text1: '위치 권한을 허용해주세요.',
+        position: 'bottom',
+      });
       return;
     }
 
