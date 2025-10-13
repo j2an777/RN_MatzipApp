@@ -6,6 +6,7 @@ import { useRef } from 'react';
 
 import useUserLocation from '@/hooks/useUserLocation';
 import DrawerButton from '@/components/DrawerButton';
+import usePermission from '@/hooks/usePermission';
 import { numbers } from '@/constants/numbers';
 import { colors } from '@/constants/colors';
 
@@ -13,6 +14,7 @@ const MapHomeScreen = () => {
   const { userLocation, isUserLocationError } = useUserLocation();
   const mapRef = useRef<MapView | null>(null);
   const inset = useSafeAreaInsets();
+  usePermission();
 
   const moveMapView = (coordinate: LatLng) => {
     mapRef.current?.animateToRegion({
