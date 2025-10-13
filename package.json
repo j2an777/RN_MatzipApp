@@ -25,6 +25,7 @@
     "react-native-encrypted-storage": "^4.0.3",
     "react-native-gesture-handler": "^2.28.0",
     "react-native-maps": "^1.23.12",
+    "react-native-permissions": "^5.4.2",
     "react-native-reanimated": "^4.0.3",
     "react-native-safe-area-context": "^5.6.1",
     "react-native-screens": "^4.15.3",
