@@ -1,18 +1,20 @@
-import MapView, { LatLng, PROVIDER_GOOGLE } from 'react-native-maps';
+import MapView, { LatLng, Marker, PROVIDER_GOOGLE } from 'react-native-maps';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import FontAwesome6 from '@react-native-vector-icons/fontawesome6';
 import { Pressable, StyleSheet, View } from 'react-native';
 import Toast from 'react-native-toast-message';
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 
 import useUserLocation from '@/hooks/useUserLocation';
 import DrawerButton from '@/components/DrawerButton';
+import CustomMarker from '@/components/CustomMarker';
 import usePermission from '@/hooks/usePermission';
 import { numbers } from '@/constants/numbers';
 import { colors } from '@/constants/colors';
 
 const MapHomeScreen = () => {
   const { userLocation, isUserLocationError } = useUserLocation();
+  const [selectLocation, setSelectLocation] = useState<LatLng | null>();
   const mapRef = useRef<MapView | null>(null);
   const inset = useSafeAreaInsets();
   usePermission('LOCATION');
@@ -48,11 +50,23 @@ const MapHomeScreen = () => {
         style={styles.container}
         ref={mapRef}
         provider={PROVIDER_GOOGLE}
+        onLongPress={({ nativeEvent }) =>
+          setSelectLocation(nativeEvent.coordinate)
+        }
         region={{
           ...userLocation,
           ...numbers.INITIAL_DELTA,
-        }}
-      />
+        }}>
+        <CustomMarker
+          color={colors.PINK_400}
+          score={1}
+          coordinate={{
+            latitude: 37.5546032365118,
+            longitude: 126.98989626020192,
+          }}
+        />
+        {selectLocation && <Marker coordinate={selectLocation} />}
+      </MapView>
       <View style={styles.buttonList}>
         <Pressable style={styles.mapButton} onPress={handlePressUserLocation}>
           <FontAwesome6
