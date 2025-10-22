@@ -22,8 +22,8 @@ const CustomMarker = ({
           <View style={[styles.eye, styles.leftEye]} />
           <View style={[styles.eye, styles.rightEye]} />
           {score > 3 && <View style={[styles.mouth, styles.good]} />}
-          {score < 3 && <View style={[styles.mouth, styles.bad]} />}
           {score === 3 && <View style={[styles.mouth, styles.soso]} />}
+          {score < 3 && <View style={[styles.mouth, styles.bad]} />}
         </View>
       </View>
     </Marker>
@@ -66,25 +66,29 @@ const styles = StyleSheet.create({
     height: 12,
     borderRadius: 12,
     borderWidth: 1,
-    borderTopColor: 'rgba(255, 255, 255 / 0.01)',
-    borderBottomColor: 'rgba(255, 255, 255 / 0.01)',
+    borderTopColor: 'rgba(255,255,255,0.01)',
+    borderBottomColor: 'rgba(255,255,255,0.01)',
   },
   good: {
     marginLeft: 5,
     marginTop: 5,
-    borderLeftColor: 'rgba(255, 255, 255 / 0.01)',
+    borderLeftColor: 'rgba(255,255,255,0.01)',
   },
   bad: {
     marginLeft: 12,
     marginTop: 12,
-    borderRightColor: 'rgba(255, 255, 255 / 0.01)',
+    borderRightColor: 'rgba(255,255,255,0.01)',
   },
   soso: {
     width: 8,
     height: 8,
     borderLeftColor: colors.BLACK,
     borderLeftWidth: 1,
-    marginLeft: 14,
+    borderTopWidth: 0,
+    borderRightWidth: 0,
+    borderBottomWidth: 0,
+    borderRadius: 0,
+    marginLeft: 13,
     marginTop: 13,
     transform: [{ rotate: '45deg' }],
   },
