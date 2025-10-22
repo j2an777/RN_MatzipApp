@@ -24,7 +24,7 @@ const AddLocationScreen = ({ route }: Props) => {
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
-      <InputField value={address} />
+      <InputField value={address} disabled />
       <CustomButton label="날짜 선택" variant="outlined" />
       <InputField
         placeholder="제목을 입력하세요."
