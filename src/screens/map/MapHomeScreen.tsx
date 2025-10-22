@@ -3,11 +3,12 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import FontAwesome6 from '@react-native-vector-icons/fontawesome6';
 import { Pressable, StyleSheet, View } from 'react-native';
 import Toast from 'react-native-toast-message';
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 
 import useUserLocation from '@/hooks/useUserLocation';
 import DrawerButton from '@/components/DrawerButton';
 import CustomMarker from '@/components/CustomMarker';
+import useMoveMapView from '@/hooks/useMoveMapView';
 import usePermission from '@/hooks/usePermission';
 import { numbers } from '@/constants/numbers';
 import { colors } from '@/constants/colors';
@@ -15,16 +16,10 @@ import { colors } from '@/constants/colors';
 const MapHomeScreen = () => {
   const { userLocation, isUserLocationError } = useUserLocation();
   const [selectLocation, setSelectLocation] = useState<LatLng | null>();
-  const mapRef = useRef<MapView | null>(null);
+  const { moveMapView, handleChangeDelta, mapRef } = useMoveMapView();
+
   const inset = useSafeAreaInsets();
   usePermission('LOCATION');
-
-  const moveMapView = (coordinate: LatLng) => {
-    mapRef.current?.animateToRegion({
-      ...coordinate,
-      ...numbers.INITIAL_DELTA,
-    });
-  };
 
   const handlePressUserLocation = () => {
     if (isUserLocationError) {
@@ -39,6 +34,8 @@ const MapHomeScreen = () => {
     moveMapView(userLocation);
   };
 
+  const handlePressMarker = (coordinate: LatLng) => moveMapView(coordinate);
+
   return (
     <>
       <DrawerButton
@@ -50,6 +47,7 @@ const MapHomeScreen = () => {
         style={styles.container}
         ref={mapRef}
         provider={PROVIDER_GOOGLE}
+        onRegionChangeComplete={handleChangeDelta}
         onLongPress={({ nativeEvent }) =>
           setSelectLocation(nativeEvent.coordinate)
         }
@@ -57,14 +55,34 @@ const MapHomeScreen = () => {
           ...userLocation,
           ...numbers.INITIAL_DELTA,
         }}>
-        <CustomMarker
-          color={colors.PINK_400}
-          score={1}
-          coordinate={{
-            latitude: 37.5546032365118,
-            longitude: 126.98989626020192,
-          }}
-        />
+        {[
+          {
+            id: 1,
+            color: colors.PINK_400,
+            score: 4,
+            coordinate: {
+              latitude: 37.5536032365118,
+              longitude: 126.98189626020192,
+            },
+          },
+          {
+            id: 2,
+            color: colors.PINK_400,
+            score: 3,
+            coordinate: {
+              latitude: 37.5526032365118,
+              longitude: 126.98919626020192,
+            },
+          },
+        ].map(marker => (
+          <CustomMarker
+            key={marker.id}
+            color={marker.color}
+            score={marker.score}
+            coordinate={marker.coordinate}
+            onPress={() => handlePressMarker(marker.coordinate)}
+          />
+        ))}
         {selectLocation && <Marker coordinate={selectLocation} />}
       </MapView>
       <View style={styles.buttonList}>
