@@ -1,9 +1,9 @@
-import {createStackNavigator} from '@react-navigation/stack';
+import { createStackNavigator } from '@react-navigation/stack';
 
 import SearchLocationScreen from '@/screens/map/SearchLocationScreen';
 import AddLocationScreen from '@/screens/map/AddLocationScreen';
 import MapHomeScreen from '@/screens/map/MapHomeScreen';
-import {colors} from '@/constants/colors';
+import { colors } from '@/constants/colors';
 
 const MapStack = createStackNavigator({
   screenOptions: {
@@ -30,6 +30,12 @@ const MapStack = createStackNavigator({
     },
     AddLocation: {
       screen: AddLocationScreen,
+      options: {
+        title: '장소 추가',
+        cardStyle: {
+          backgroundColor: colors.WHITE,
+        },
+      },
     },
     SearchLocation: {
       screen: SearchLocationScreen,
