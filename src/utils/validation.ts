@@ -37,4 +37,17 @@ const validationSignup = (values: ValidationSignupProps) => {
   return signupErrors;
 };
 
-export { validationLogin, validationSignup };
+const validateAddPost = (values: { title: string }) => {
+  const errors = {
+    title: '',
+    description: '',
+  };
+
+  if (values.title.trim() === '') {
+    errors.title = '제목은 1~30자 이내로 입력해주세요.';
+  }
+
+  return errors;
+};
+
+export { validationLogin, validationSignup, validateAddPost };
