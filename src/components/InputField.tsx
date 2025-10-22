@@ -13,12 +13,14 @@ interface InputFieldProps extends TextInputProps {
   ref?: Ref<TextInput>;
   errorMessage?: string;
   touched?: boolean;
+  disabled?: boolean;
 }
 
 const InputField = ({
   ref,
   errorMessage,
   touched,
+  disabled = false,
   ...props
 }: InputFieldProps) => {
   return (
@@ -31,9 +33,11 @@ const InputField = ({
         placeholderTextColor={colors.GRAY_500}
         style={[
           styles.input,
+          disabled && styles.disabled,
           props.multiline && styles.multiline,
           touched && errorMessage && styles.inputError,
         ]}
+        editable={!disabled}
         {...props}
       />
       {touched && errorMessage && (
@@ -66,6 +70,10 @@ const styles = StyleSheet.create({
     height: 150,
     paddingVertical: 10,
     textAlignVertical: 'top',
+  },
+  disabled: {
+    backgroundColor: colors.GRAY_200,
+    color: colors.GRAY_700,
   },
 });
 
