@@ -28,7 +28,12 @@ const InputField = ({
         autoCapitalize="none"
         spellCheck={false}
         autoCorrect={false}
-        style={[styles.input, touched && errorMessage && styles.inputError]}
+        placeholderTextColor={colors.GRAY_500}
+        style={[
+          styles.input,
+          props.multiline && styles.multiline,
+          touched && errorMessage && styles.inputError,
+        ]}
         {...props}
       />
       {touched && errorMessage && (
@@ -56,6 +61,11 @@ const styles = StyleSheet.create({
     color: colors.RED_500,
     fontSize: 12,
     paddingTop: 5,
+  },
+  multiline: {
+    height: 150,
+    paddingVertical: 10,
+    textAlignVertical: 'top',
   },
 });
 
