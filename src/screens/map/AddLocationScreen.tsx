@@ -7,17 +7,22 @@ import { validateAddPost } from '@/utils/validation';
 import useGetAddress from '@/hooks/useGetAddress';
 import InputField from '@/components/InputField';
 import useForm from '@/hooks/useForm';
+import DatePicker from 'react-native-date-picker';
+import { useState } from 'react';
+import { getDateWithSeparator } from '@/utils/getDate';
 
 type Props = StackScreenProps<MapStackParamList, 'AddLocation'>;
 
 const AddLocationScreen = ({ route }: Props) => {
   const { location } = route.params;
   const address = useGetAddress(location);
+  const [openDate, setOpenDate] = useState(false);
 
   const postForm = useForm({
     initialValue: {
       title: '',
       description: '',
+      date: new Date(),
     },
     validate: validateAddPost,
   });
@@ -25,7 +30,11 @@ const AddLocationScreen = ({ route }: Props) => {
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <InputField value={address} disabled />
-      <CustomButton label="날짜 선택" variant="outlined" />
+      <CustomButton
+        label={getDateWithSeparator(postForm.values.date, '. ')}
+        variant="outlined"
+        onPress={() => setOpenDate(true)}
+      />
       <InputField
         placeholder="제목을 입력하세요."
         errorMessage={postForm.errors.title}
@@ -38,6 +47,20 @@ const AddLocationScreen = ({ route }: Props) => {
         errorMessage={postForm.errors.description}
         touched={postForm.touched.description}
         {...postForm.getTextInputProps('description')}
+      />
+      <DatePicker
+        modal
+        locale="ko"
+        mode="date"
+        date={postForm.values.date}
+        open={openDate}
+        onCancel={() => setOpenDate(false)}
+        title={null}
+        cancelText="취소"
+        confirmText="완료"
+        onConfirm={date => {
+          postForm.onChange('date', date);
+        }}
       />
     </ScrollView>
   );
