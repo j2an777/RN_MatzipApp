@@ -42,6 +42,8 @@ const validateAddPost = (values: { title: string }) => {
     title: '',
     description: '',
     date: '',
+    color: '',
+    score: '',
   };
 
   if (values.title.trim() === '') {
