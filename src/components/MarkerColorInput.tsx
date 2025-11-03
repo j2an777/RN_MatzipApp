@@ -7,10 +7,11 @@ import CustomMarker from './CustomMarker';
 
 interface Props {
   color: string;
+  score: number;
   onChangeColor: (value: string) => void;
 }
 
-const MarkerColorInput = ({ color, onChangeColor }: Props) => {
+const MarkerColorInput = ({ color, score, onChangeColor }: Props) => {
   return (
     <View style={styles.container}>
       <Text style={styles.markerLabel}>마커 선택</Text>
@@ -31,7 +32,7 @@ const MarkerColorInput = ({ color, onChangeColor }: Props) => {
                   styles.markerBox,
                   color === selectColor && styles.pressedMarker,
                 ]}>
-                <CustomMarker color={selectColor} />
+                <CustomMarker color={selectColor} score={score} />
               </Pressable>
             );
           })}
