@@ -1,10 +1,13 @@
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { ScrollView, StyleSheet, View } from 'react-native';
 import { StackScreenProps } from '@react-navigation/stack';
-import { ScrollView, StyleSheet } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import DatePicker from 'react-native-date-picker';
 import { useState } from 'react';
 
 import MarkerColorInput from '@/components/MarkerColorInput';
+import PreviewImageList from '@/components/PreviewImageList';
+import useCreatePost from '@/hooks/queries/useCreatePost';
 import FixedBottomCTA from '@/components/FixedBottomCTA';
 import { MapStackParamList } from '@/types/navigation';
 import { getDateWithSeparator } from '@/utils/getDate';
@@ -24,11 +27,15 @@ type Props = StackScreenProps<MapStackParamList, 'AddLocation'>;
 const AddLocationScreen = ({ route }: Props) => {
   const { location } = route.params;
   const inset = useSafeAreaInsets();
+  const navigate = useNavigation();
   const address = useGetAddress(location);
-  const [openDate, setOpenDate] = useState(false);
-  const { handleChangeOpenPicker } = useImagePicker();
-
   usePermission('PHOTO');
+
+  const { mutate } = useCreatePost();
+  const { handleChangeOpenPicker, imageUris, deleteImageUri } =
+    useImagePicker();
+
+  const [openDate, setOpenDate] = useState(false);
 
   const postForm = useForm({
     initialValue: {
@@ -41,7 +48,19 @@ const AddLocationScreen = ({ route }: Props) => {
     validate: validateAddPost,
   });
 
-  const handleSubmit = () => {};
+  const handleSubmit = () => {
+    mutate(
+      {
+        address,
+        ...location,
+        ...postForm.values,
+        imageUris: imageUris,
+      },
+      {
+        onSuccess: () => navigate.goBack(),
+      },
+    );
+  };
 
   return (
     <>
@@ -92,7 +111,10 @@ const AddLocationScreen = ({ route }: Props) => {
             postForm.onChange('date', date);
           }}
         />
-        <ImageInput onChange={handleChangeOpenPicker} />
+        <View style={{ flexDirection: 'row' }}>
+          <ImageInput onChange={handleChangeOpenPicker} />
+          <PreviewImageList imageUris={imageUris} onDelete={deleteImageUri} />
+        </View>
       </ScrollView>
       <FixedBottomCTA label="저장" onPress={handleSubmit} />
     </>
