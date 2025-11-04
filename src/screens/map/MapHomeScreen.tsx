@@ -5,6 +5,7 @@ import Toast from 'react-native-toast-message';
 import { useState } from 'react';
 
 import { StackNavigationProp } from '@react-navigation/stack';
+import useGetMarkers from '@/hooks/queries/useGetMarkers';
 import { useNavigation } from '@react-navigation/native';
 import { MapStackParamList } from '@/types/navigation';
 import MapIconButton from '@/components/MapIconButton';
@@ -24,6 +25,7 @@ const MapHomeScreen = () => {
   const { moveMapView, handleChangeDelta, mapRef } = useMoveMapView();
   const { userLocation, isUserLocationError } = useUserLocation();
   const navigation = useNavigation<Navigation>();
+  const { data: markers = [] } = useGetMarkers();
 
   const inset = useSafeAreaInsets();
   usePermission('LOCATION');
@@ -55,6 +57,8 @@ const MapHomeScreen = () => {
     navigation.navigate('AddLocation', {
       location: selectLocation,
     });
+
+    setSelectLocation(null);
   };
 
   return (
@@ -76,32 +80,21 @@ const MapHomeScreen = () => {
           ...userLocation,
           ...numbers.INITIAL_DELTA,
         }}>
-        {[
-          {
-            id: 1,
-            color: colors.PINK_400,
-            score: 4,
-            coordinate: {
-              latitude: 37.5536032365118,
-              longitude: 126.98189626020192,
-            },
-          },
-          {
-            id: 2,
-            color: colors.PINK_400,
-            score: 3,
-            coordinate: {
-              latitude: 37.5526032365118,
-              longitude: 126.98919626020192,
-            },
-          },
-        ].map(marker => (
+        {markers.map(marker => (
           <CustomMarker
             key={marker.id}
             color={marker.color}
             score={marker.score}
-            coordinate={marker.coordinate}
-            onPress={() => handlePressMarker(marker.coordinate)}
+            coordinate={{
+              latitude: marker.latitude,
+              longitude: marker.longitude,
+            }}
+            onPress={() =>
+              handlePressMarker({
+                latitude: marker.latitude,
+                longitude: marker.longitude,
+              })
+            }
           />
         ))}
         {selectLocation && <Marker coordinate={selectLocation} />}
