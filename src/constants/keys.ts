@@ -9,6 +9,8 @@ const queryKeys = {
   AUTHORIZATION: 'Authorization',
   MARKER: 'marker',
   GET_MARKERS: 'getMarkers',
+  POST: 'post',
+  GET_POST: 'getPost',
 };
 
 export { storageKeys, queryKeys };
