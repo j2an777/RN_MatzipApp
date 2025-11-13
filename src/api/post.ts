@@ -10,4 +10,10 @@ const createPost = async (body: CreatePost): Promise<Post> => {
   return data;
 };
 
-export { createPost };
+const getPost = async (id: number): Promise<Post> => {
+  const { data } = await instance.get(`/posts/${id}`);
+
+  return data;
+};
+
+export { createPost, getPost };
