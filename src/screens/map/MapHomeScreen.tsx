@@ -13,6 +13,7 @@ import useUserLocation from '@/hooks/useUserLocation';
 import DrawerButton from '@/components/DrawerButton';
 import CustomMarker from '@/components/CustomMarker';
 import useMoveMapView from '@/hooks/useMoveMapView';
+import MarkerModal from '@/components/MarkerModal';
 import usePermission from '@/hooks/usePermission';
 import { numbers } from '@/constants/numbers';
 import { colors } from '@/constants/colors';
@@ -21,6 +22,8 @@ type Navigation = StackNavigationProp<MapStackParamList>;
 
 const MapHomeScreen = () => {
   const [selectLocation, setSelectLocation] = useState<LatLng | null>();
+  const [isVisible, setIsVisible] = useState<boolean>(false);
+  const [markerId, setMarkerId] = useState<number>();
 
   const { moveMapView, handleChangeDelta, mapRef } = useMoveMapView();
   const { userLocation, isUserLocationError } = useUserLocation();
@@ -29,6 +32,9 @@ const MapHomeScreen = () => {
 
   const inset = useSafeAreaInsets();
   usePermission('LOCATION');
+
+  const hide = () => setIsVisible(false);
+  const visible = () => setIsVisible(true);
 
   const handlePressUserLocation = () => {
     if (isUserLocationError) {
@@ -43,7 +49,11 @@ const MapHomeScreen = () => {
     moveMapView(userLocation);
   };
 
-  const handlePressMarker = (coordinate: LatLng) => moveMapView(coordinate);
+  const handlePressMarker = (id: number, coordinate: LatLng) => {
+    setMarkerId(id);
+    moveMapView(coordinate);
+    visible();
+  };
 
   const handlePressAddPost = () => {
     if (!selectLocation) {
@@ -90,7 +100,7 @@ const MapHomeScreen = () => {
               longitude: marker.longitude,
             }}
             onPress={() =>
-              handlePressMarker({
+              handlePressMarker(marker.id, {
                 latitude: marker.latitude,
                 longitude: marker.longitude,
               })
@@ -106,6 +116,11 @@ const MapHomeScreen = () => {
           onPress={handlePressUserLocation}
         />
       </View>
+      <MarkerModal
+        markerId={Number(markerId)}
+        isVisible={isVisible}
+        hide={hide}
+      />
     </>
   );
 };
