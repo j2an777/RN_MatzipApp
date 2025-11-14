@@ -7,18 +7,18 @@ import { useState } from 'react';
 
 import PreviewImageList from '@/components/common/PreviewImageList';
 import FixedBottomCTA from '@/components/common/FixedBottomCTA';
-import MarkerColorInput from '@/components/MarkerColorInput';
+import MarkerColorInput from '@/components/map/MarkerColorInput';
 import CustomButton from '@/components/common/CustomButton';
 import useCreatePost from '@/hooks/queries/useCreatePost';
+import InputField from '@/components/common/InputField';
 import { MapStackParamList } from '@/types/navigation';
 import { getDateWithSeparator } from '@/utils/getDate';
+import ScoreInput from '@/components/post/ScoreInput';
+import ImageInput from '@/components/post/ImageInput';
 import { validateAddPost } from '@/utils/validation';
 import useImagePicker from '@/hooks/useImagePicker';
 import useGetAddress from '@/hooks/useGetAddress';
 import usePermission from '@/hooks/usePermission';
-import InputField from '@/components/common/InputField';
-import ScoreInput from '@/components/ScoreInput';
-import ImageInput from '@/components/ImageInput';
 import { colors } from '@/constants/colors';
 import useForm from '@/hooks/useForm';
 

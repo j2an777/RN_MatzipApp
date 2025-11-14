@@ -3,7 +3,7 @@ import { ScrollView } from 'react-native-gesture-handler';
 
 import { colors } from '@/constants/colors';
 
-import CustomMarker from './CustomMarker';
+import CustomMarker from '../common/CustomMarker';
 
 interface Props {
   color: string;
