@@ -6,12 +6,12 @@ import {
   Text,
   View,
 } from 'react-native';
-import {StackNavigationProp} from '@react-navigation/stack';
-import {useNavigation} from '@react-navigation/native';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { useNavigation } from '@react-navigation/native';
 
-import {AuthStackParamList} from '@/types/navigation';
-import CustomButton from '@/components/CustomButton';
-import {colors} from '@/constants/colors';
+import CustomButton from '@/components/common/CustomButton';
+import { AuthStackParamList } from '@/types/navigation';
+import { colors } from '@/constants/colors';
 
 type Navigation = StackNavigationProp<AuthStackParamList>;
 

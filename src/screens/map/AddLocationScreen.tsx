@@ -5,13 +5,13 @@ import { useNavigation } from '@react-navigation/native';
 import DatePicker from 'react-native-date-picker';
 import { useState } from 'react';
 
+import FixedBottomCTA from '@/components/common/FixedBottomCTA';
 import MarkerColorInput from '@/components/MarkerColorInput';
 import PreviewImageList from '@/components/PreviewImageList';
+import CustomButton from '@/components/common/CustomButton';
 import useCreatePost from '@/hooks/queries/useCreatePost';
-import FixedBottomCTA from '@/components/FixedBottomCTA';
 import { MapStackParamList } from '@/types/navigation';
 import { getDateWithSeparator } from '@/utils/getDate';
-import CustomButton from '@/components/CustomButton';
 import { validateAddPost } from '@/utils/validation';
 import useImagePicker from '@/hooks/useImagePicker';
 import useGetAddress from '@/hooks/useGetAddress';

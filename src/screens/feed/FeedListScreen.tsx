@@ -1,22 +1,17 @@
-import {StackNavigationProp} from '@react-navigation/stack';
-import {useNavigation} from '@react-navigation/native';
-import {SafeAreaView, Text} from 'react-native';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { useNavigation } from '@react-navigation/native';
+import { SafeAreaView, StyleSheet, Text } from 'react-native';
 
-import {FeedStackParamList} from '@/types/navigation';
-
-type Navigation = StackNavigationProp<FeedStackParamList>;
+import { FeedStackParamList } from '@/types/navigation';
 
 const FeedListScreen = () => {
-  const navigation = useNavigation<Navigation>();
-
-  return (
-    <SafeAreaView>
-      <Text>FeedListScreen</Text>
-      <Text onPress={() => navigation.navigate('FeedDetail', {id: 1})}>
-        1번 장소
-      </Text>
-    </SafeAreaView>
-  );
+  return <SafeAreaView style={styles.container}></SafeAreaView>;
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+});
 
 export default FeedListScreen;
