@@ -17,24 +17,22 @@ import MarkerModal from '@/components/MarkerModal';
 import usePermission from '@/hooks/usePermission';
 import { numbers } from '@/constants/numbers';
 import { colors } from '@/constants/colors';
+import useModal from '@/hooks/useModal';
 
 type Navigation = StackNavigationProp<MapStackParamList>;
 
 const MapHomeScreen = () => {
   const [selectLocation, setSelectLocation] = useState<LatLng | null>();
-  const [isVisible, setIsVisible] = useState<boolean>(false);
   const [markerId, setMarkerId] = useState<number>();
 
   const { moveMapView, handleChangeDelta, mapRef } = useMoveMapView();
   const { userLocation, isUserLocationError } = useUserLocation();
+  const { isVisible, hide, visible } = useModal();
   const navigation = useNavigation<Navigation>();
   const { data: markers = [] } = useGetMarkers();
-
   const inset = useSafeAreaInsets();
-  usePermission('LOCATION');
 
-  const hide = () => setIsVisible(false);
-  const visible = () => setIsVisible(true);
+  usePermission('LOCATION');
 
   const handlePressUserLocation = () => {
     if (isUserLocationError) {
