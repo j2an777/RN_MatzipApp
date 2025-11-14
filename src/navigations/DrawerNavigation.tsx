@@ -1,18 +1,18 @@
-import {createStaticNavigation} from '@react-navigation/native';
-import {createDrawerNavigator} from '@react-navigation/drawer';
+import { createStaticNavigation } from '@react-navigation/native';
+import { createDrawerNavigator } from '@react-navigation/drawer';
 
-import CustomDrawerContent from '@/components/CustomDrawerContent';
+import CustomDrawerContent from '@/components/common/CustomDrawerContent';
 import CalendarScreen from '@/screens/calendar/CalendarScreen';
-import {MainDrawerParamList} from '@/types/navigation';
-import DrawerButton from '@/components/DrawerButton';
-import DrawerIcons from '@/components/DrawerIcons';
-import {colors} from '@/constants/colors';
+import DrawerButton from '@/components/common/DrawerButton';
+import DrawerIcons from '@/components/common/DrawerIcons';
+import { MainDrawerParamList } from '@/types/navigation';
+import { colors } from '@/constants/colors';
 
 import FeedStack from './FeedNavigation';
 import MapStack from './MapNavigation';
 
 const MainDrawer = createDrawerNavigator({
-  screenOptions: ({route}) => {
+  screenOptions: ({ route }) => {
     return {
       drawerStyle: {
         width: '60%',
@@ -29,7 +29,7 @@ const MainDrawer = createDrawerNavigator({
       drawerActiveBackgroundColor: colors.PINK_700,
       drawerInactiveTintColor: colors.GRAY_500,
       drawerInactiveBackgroundColor: colors.GRAY_100,
-      drawerIcon: ({focused}) =>
+      drawerIcon: ({ focused }) =>
         DrawerIcons(route.name as keyof MainDrawerParamList, focused),
       headerTitleAlign: 'center',
       headerBackButtonDisplayMode: 'minimal',

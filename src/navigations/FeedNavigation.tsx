@@ -1,11 +1,11 @@
-import {createStackNavigator} from '@react-navigation/stack';
+import { createStackNavigator } from '@react-navigation/stack';
 
 import FeedFavoriteScreen from '@/screens/feed/FeedFavoriteScreen';
 import EditLocationScreen from '@/screens/feed/EditLocationScreen';
 import FeedDetailScreen from '@/screens/feed/FeedDetailScreen';
+import DrawerButton from '@/components/common/DrawerButton';
 import FeedListScreen from '@/screens/feed/FeedListScreen';
-import DrawerButton from '@/components/DrawerButton';
-import {colors} from '@/constants/colors';
+import { colors } from '@/constants/colors';
 
 const FeedStack = createStackNavigator({
   screenOptions: {
