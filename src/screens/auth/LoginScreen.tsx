@@ -3,7 +3,7 @@ import { useRef } from 'react';
 
 import CustomButton from '@/components/common/CustomButton';
 import { validationLogin } from '@/utils/validation';
-import InputField from '@/components/InputField';
+import InputField from '@/components/common/InputField';
 import useAuth from '@/hooks/queries/useAuth';
 import useForm from '@/hooks/useForm';
 
