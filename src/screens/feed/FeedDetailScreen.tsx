@@ -19,15 +19,20 @@ import { getDateWithSeparator } from '@/utils/getDate';
 import useGetPost from '@/hooks/queries/useGetPosts';
 import useLocationStore from '@/store/location';
 import { colors } from '@/constants/colors';
+import useModal from '@/hooks/useModal';
 import { baseUrls } from '@/api';
+
+import FeedDetailActionSheet from './FeedDetailActionSheet';
 
 type Props = StackScreenProps<FeedStackParamList, 'FeedDetail'>;
 
 const FeedDetailScreen = ({ route }: Props) => {
-  const { id } = route.params;
+  const { setMoveLocation } = useLocationStore();
   const navigation = useNavigation();
   const insets = useSafeAreaInsets();
-  const { setMoveLocation } = useLocationStore();
+  const detailAction = useModal();
+  const { id } = route.params;
+
   const { data: post, isPending, isError } = useGetPost(id);
 
   if (isPending || isError) return <></>;
@@ -50,7 +55,12 @@ const FeedDetailScreen = ({ route }: Props) => {
           color={colors.WHITE}
           onPress={() => navigation.goBack()}
         />
-        <Ionicons name="ellipsis-vertical" size={30} color={colors.WHITE} />
+        <Ionicons
+          name="ellipsis-vertical"
+          size={30}
+          color={colors.WHITE}
+          onPress={detailAction.show}
+        />
       </View>
       <ScrollView>
         <View style={styles.imageContainer}>
@@ -127,6 +137,11 @@ const FeedDetailScreen = ({ route }: Props) => {
           onPress={handlePressLocation}
         />
       </View>
+
+      <FeedDetailActionSheet
+        isVisible={detailAction.isVisible}
+        hideAction={detailAction.hide}
+      />
     </>
   );
 };
