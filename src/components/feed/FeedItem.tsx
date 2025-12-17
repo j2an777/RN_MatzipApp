@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 
 import { getDateWithSeparator } from '@/utils/getDate';
+import { colors } from '@/constants/colors';
 import { Post } from '@/types/domain';
 import { baseUrls } from '@/api';
 
@@ -52,15 +53,39 @@ const styles = StyleSheet.create({
     marginVertical: 12,
   },
   imageContainer: {
-    width: Dimensions.get('screen').width / 2,
-    height: Dimensions.get('screen').width / 2,
+    width: Dimensions.get('screen').width / 2 - 25,
+    height: Dimensions.get('screen').width / 2 - 25,
   },
-  image: {},
-  emptyContainer: {},
-  descriptionText: {},
-  textContainer: {},
-  dateText: {},
-  titleText: {},
+  image: {
+    width: '100%',
+    height: '100%',
+    borderRadius: 5,
+  },
+  emptyContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderColor: colors.GRAY_200,
+    borderWidth: 1,
+    borderRadius: 5,
+  },
+  descriptionText: {
+    color: colors.GRAY_500,
+    fontSize: 13,
+  },
+  textContainer: {
+    marginTop: 7,
+    gap: 2,
+  },
+  dateText: {
+    color: colors.PINK_700,
+    fontWeight: '600',
+    fontSize: 12,
+  },
+  titleText: {
+    color: colors.BLACK,
+    fontWeight: '500',
+    fontSize: 13,
+  },
 });
 
 export default FeedItem;
