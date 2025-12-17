@@ -8,14 +8,20 @@ import {
   View,
 } from 'react-native';
 
+import { StackNavigationProp } from '@react-navigation/stack';
+import { useNavigation } from '@react-navigation/native';
+import { FeedStackParamList } from '@/types/navigation';
 import { getDateWithSeparator } from '@/utils/getDate';
 import { colors } from '@/constants/colors';
 import { Post } from '@/types/domain';
 import { baseUrls } from '@/api';
 
 const FeedItem = ({ post }: { post: Post }) => {
+  const navigation = useNavigation<StackNavigationProp<FeedStackParamList>>();
   return (
-    <Pressable style={styles.container}>
+    <Pressable
+      style={styles.container}
+      onPress={() => navigation.navigate('FeedDetail', { id: post.id })}>
       {post.imageUris.length > 0 && (
         <View style={styles.imageContainer}>
           <Image
