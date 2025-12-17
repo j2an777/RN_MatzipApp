@@ -4,9 +4,9 @@ const useModal = () => {
   const [isVisible, setIsVisible] = useState<boolean>(false);
 
   const hide = () => setIsVisible(false);
-  const visible = () => setIsVisible(true);
+  const show = () => setIsVisible(true);
 
-  return { hide, visible, isVisible };
+  return { hide, show, isVisible };
 };
 
 export default useModal;
