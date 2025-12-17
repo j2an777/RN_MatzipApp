@@ -26,9 +26,13 @@ const PreviewImageList = ({ imageUris, onDelete }: Props) => {
               }}
               resizeMode="cover"
             />
-            <Pressable style={style.deleteBtn} onPress={() => onDelete?.(uri)}>
-              <Ionicons name="close" size={16} color={colors.WHITE} />
-            </Pressable>
+            {onDelete && (
+              <Pressable
+                style={style.deleteBtn}
+                onPress={() => onDelete?.(uri)}>
+                <Ionicons name="close" size={16} color={colors.WHITE} />
+              </Pressable>
+            )}
           </Pressable>
         );
       })}
