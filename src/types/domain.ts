@@ -28,4 +28,9 @@ interface Profile {
   loginType: 'email' | 'kakao' | 'apple';
 }
 
-export type { ImageUri, Marker, Post, Profile };
+type RequestUpdatePost = {
+  id: number;
+  body: Omit<Post, 'id' | 'longitude' | 'latitude' | 'address'>;
+};
+
+export type { ImageUri, Marker, Post, Profile, RequestUpdatePost };
