@@ -7,9 +7,9 @@ import { ImageUri } from '@/types/domain';
 
 import useUploadImages from './queries/useUploadImages';
 
-const useImagePicker = () => {
+const useImagePicker = ({ initialImages }: { initialImages: ImageUri[] }) => {
   const { mutate } = useUploadImages();
-  const [imageUris, setImageUris] = useState<ImageUri[]>([]);
+  const [imageUris, setImageUris] = useState<ImageUri[]>(initialImages);
 
   const addImageUris = (uris: string[]) => {
     setImageUris(prev => [...prev, ...uris.map(uri => ({ uri }))]);
