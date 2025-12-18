@@ -2,13 +2,14 @@ import {
   Image,
   Modal,
   Platform,
+  Pressable,
   SafeAreaView,
   StyleSheet,
   Text,
   View,
 } from 'react-native';
 import Ionicons from '@react-native-vector-icons/ionicons';
-import { Pressable } from 'react-native-gesture-handler';
+import { useNavigation } from '@react-navigation/native';
 
 import { getDateWithSeparator } from '@/utils/getDate';
 import useGetPost from '@/hooks/queries/useGetPosts';
@@ -22,14 +23,27 @@ interface Props {
 }
 
 const MarkerModal = ({ markerId, isVisible, hide }: Props) => {
+  const navigation = useNavigation();
   const { data: post, isPending, isError } = useGetPost(markerId);
+
+  const handlePressModal = () => {
+    navigation.navigate('Feed', {
+      screen: 'FeedDetail',
+      params: {
+        id: post?.id as number,
+      },
+      initial: false,
+    });
+
+    hide();
+  };
 
   if (isPending || isError) return <></>;
 
   return (
     <Modal visible={isVisible} transparent animationType="slide">
       <SafeAreaView style={styles.background} onTouchEnd={hide}>
-        <Pressable style={styles.cardContainer}>
+        <Pressable style={styles.cardContainer} onPress={handlePressModal}>
           <View style={styles.cardAlign}>
             <View style={styles.cardInner}>
               {post?.imageUris.length > 0 && (
