@@ -1,6 +1,7 @@
 import ActionSheet from '@/components/common/ActionSheet';
 
 interface FeedDetailActionSheetProps {
+  id: number;
   isVisible: boolean;
   hideAction: () => void;
 }

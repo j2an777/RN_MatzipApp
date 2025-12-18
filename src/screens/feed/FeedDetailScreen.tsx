@@ -139,6 +139,7 @@ const FeedDetailScreen = ({ route }: Props) => {
       </View>
 
       <FeedDetailActionSheet
+        id={post.id}
         isVisible={detailAction.isVisible}
         hideAction={detailAction.hide}
       />
