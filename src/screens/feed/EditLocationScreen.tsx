@@ -1,6 +1,7 @@
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { ScrollView, StyleSheet, View } from 'react-native';
 import { StackScreenProps } from '@react-navigation/stack';
+import { useNavigation } from '@react-navigation/native';
 import DatePicker from 'react-native-date-picker';
 import { useState } from 'react';
 
@@ -8,6 +9,7 @@ import PreviewImageList from '@/components/common/PreviewImageList';
 import MarkerColorInput from '@/components/map/MarkerColorInput';
 import FixedBottomCTA from '@/components/common/FixedBottomCTA';
 import CustomButton from '@/components/common/CustomButton';
+import useUpdatePost from '@/hooks/queries/useUpdatePost';
 import { FeedStackParamList } from '@/types/navigation';
 import InputField from '@/components/common/InputField';
 import { getDateWithSeparator } from '@/utils/getDate';
@@ -23,6 +25,7 @@ type Props = StackScreenProps<FeedStackParamList, 'EditLocation'>;
 
 const EditLocationScreen = ({ route }: Props) => {
   const { id } = route.params;
+  const navigate = useNavigation();
   const inset = useSafeAreaInsets();
   const { data: post } = useGetPost(id);
   const postForm = useForm({
@@ -42,9 +45,19 @@ const EditLocationScreen = ({ route }: Props) => {
     longitude: post?.longitude as number,
   });
   const imagePicker = useImagePicker({ initialImages: post?.imageUris ?? [] });
+  const { mutate } = useUpdatePost();
 
   const handleSubmit = () => {
-    //
+    mutate(
+      {
+        id,
+        body: {
+          ...postForm.values,
+          imageUris: imagePicker.imageUris,
+        },
+      },
+      { onSuccess: () => navigate.goBack() },
+    );
   };
 
   return (
