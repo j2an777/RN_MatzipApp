@@ -1,4 +1,4 @@
-import { Post } from '@/types/domain';
+import { Post, RequestUpdatePost } from '@/types/domain';
 
 import instance from '.';
 
@@ -23,9 +23,15 @@ const getPosts = async (page: number): Promise<Post[]> => {
 };
 
 const deletePost = async (id: number) => {
-  const { data } = await instance.delete(`/post/${id}`);
+  const { data } = await instance.delete(`/posts/${id}`);
 
   return data;
 };
 
-export { createPost, getPost, getPosts, deletePost };
+const updatePost = async ({ id, body }: RequestUpdatePost): Promise<Post> => {
+  const { data } = await instance.patch(`/posts/${id}`, body);
+
+  return data;
+};
+
+export { createPost, getPost, getPosts, deletePost, updatePost };
