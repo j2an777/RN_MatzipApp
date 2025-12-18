@@ -22,4 +22,10 @@ const getPosts = async (page: number): Promise<Post[]> => {
   return data;
 };
 
-export { createPost, getPost, getPosts };
+const deletePost = async (id: number) => {
+  const { data } = await instance.delete(`/post/${id}`);
+
+  return data;
+};
+
+export { createPost, getPost, getPosts, deletePost };
