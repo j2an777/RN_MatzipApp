@@ -27,7 +27,7 @@ const MapHomeScreen = () => {
 
   const { moveMapView, handleChangeDelta, mapRef } = useMoveMapView();
   const { userLocation, isUserLocationError } = useUserLocation();
-  const { isVisible, hide, visible } = useModal();
+  const { isVisible, hide, show } = useModal();
   const navigation = useNavigation<Navigation>();
   const { data: markers = [] } = useGetMarkers();
   const inset = useSafeAreaInsets();
@@ -50,7 +50,7 @@ const MapHomeScreen = () => {
   const handlePressMarker = (id: number, coordinate: LatLng) => {
     setMarkerId(id);
     moveMapView(coordinate);
-    visible();
+    show();
   };
 
   const handlePressAddPost = () => {
