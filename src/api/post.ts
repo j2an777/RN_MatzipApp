@@ -34,4 +34,17 @@ const updatePost = async ({ id, body }: RequestUpdatePost): Promise<Post> => {
   return data;
 };
 
-export { createPost, getPost, getPosts, deletePost, updatePost };
+const updateFavoritePost = async (id: number): Promise<number> => {
+  const { data } = await instance.post(`/favorites/${id}`);
+
+  return data;
+};
+
+export {
+  createPost,
+  getPost,
+  getPosts,
+  deletePost,
+  updatePost,
+  updateFavoritePost,
+};
