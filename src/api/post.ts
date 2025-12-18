@@ -34,6 +34,12 @@ const updatePost = async ({ id, body }: RequestUpdatePost): Promise<Post> => {
   return data;
 };
 
+const getFavoritePosts = async (page = 1) => {
+  const { data } = await instance.get(`/favorites?page=${page}`);
+
+  return data;
+};
+
 const updateFavoritePost = async (id: number): Promise<number> => {
   const { data } = await instance.post(`/favorites/${id}`);
 
@@ -46,5 +52,6 @@ export {
   getPosts,
   deletePost,
   updatePost,
+  getFavoritePosts,
   updateFavoritePost,
 };
