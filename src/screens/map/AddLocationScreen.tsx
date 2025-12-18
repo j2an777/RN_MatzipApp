@@ -26,14 +26,15 @@ type Props = StackScreenProps<MapStackParamList, 'AddLocation'>;
 
 const AddLocationScreen = ({ route }: Props) => {
   const { location } = route.params;
-  const inset = useSafeAreaInsets();
   const navigate = useNavigation();
+  const inset = useSafeAreaInsets();
   const address = useGetAddress(location);
   usePermission('PHOTO');
 
   const { mutate } = useCreatePost();
-  const { handleChangeOpenPicker, imageUris, deleteImageUri } =
-    useImagePicker();
+  const { handleChangeOpenPicker, imageUris, deleteImageUri } = useImagePicker({
+    initialImages: [],
+  });
 
   const [openDate, setOpenDate] = useState(false);
 
