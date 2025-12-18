@@ -1,7 +1,14 @@
 import { Image, Platform, Pressable, StyleSheet } from 'react-native';
 import Ionicons from '@react-native-vector-icons/ionicons';
 import { ScrollView } from 'react-native-gesture-handler';
+import {
+  NavigationProp,
+  RouteProp,
+  useNavigation,
+  useRoute,
+} from '@react-navigation/native';
 
+import { FeedStackParamList } from '@/types/navigation';
 import { colors } from '@/constants/colors';
 import { ImageUri } from '@/types/domain';
 import { baseUrls } from '@/api';
@@ -12,11 +19,24 @@ interface Props {
 }
 
 const PreviewImageList = ({ imageUris, onDelete }: Props) => {
+  const navigation = useNavigation<NavigationProp<FeedStackParamList>>();
+  const route = useRoute<RouteProp<FeedStackParamList>>();
+
+  const handlePressImage = (idx: number) => {
+    navigation.navigate('ImageZoom', {
+      id: route.params?.id,
+      index: idx,
+    });
+  };
+
   return (
     <ScrollView horizontal contentContainerStyle={style.container}>
-      {imageUris.map(({ uri }) => {
+      {imageUris.map(({ uri }, idx) => {
         return (
-          <Pressable key={uri} style={style.imageContainer}>
+          <Pressable
+            key={uri}
+            style={style.imageContainer}
+            onPress={() => handlePressImage(idx)}>
             <Image
               style={style.imageBox}
               source={{
