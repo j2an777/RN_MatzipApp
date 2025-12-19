@@ -4,12 +4,35 @@ import { colors } from '@/constants/colors';
 
 const DEVICE_WIDTH = Dimensions.get('window').width;
 
-const DateBox = ({ date }: { date: number }) => {
+interface DateBoxProps {
+  date: number;
+  selectedDate: number;
+  onPressDate: (date: number) => void;
+  isToday: boolean;
+}
+
+const DateBox = ({
+  date,
+  selectedDate,
+  onPressDate,
+  isToday,
+}: DateBoxProps) => {
   return (
-    <Pressable style={styles.container}>
+    <Pressable style={styles.container} onPress={() => onPressDate(date)}>
       {date > 0 && (
-        <View style={styles.dateContainer}>
-          <Text>{date}</Text>
+        <View
+          style={[
+            styles.dateContainer,
+            selectedDate === date && styles.selectedContainer,
+          ]}>
+          <Text
+            style={[
+              styles.dateText,
+              isToday && styles.todayText,
+              selectedDate === date && styles.selectedDateText,
+            ]}>
+            {date}
+          </Text>
         </View>
       )}
     </Pressable>
@@ -33,6 +56,17 @@ const styles = StyleSheet.create({
   dateText: {
     fontSize: 17,
     color: colors.BLACK,
+  },
+  selectedContainer: {
+    backgroundColor: colors.BLACK,
+  },
+  selectedDateText: {
+    color: colors.WHITE,
+    fontWeight: 'bold',
+  },
+  todayText: {
+    color: colors.PINK_700,
+    fontWeight: 'bold',
   },
 });
 

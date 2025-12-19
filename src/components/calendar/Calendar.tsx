@@ -1,6 +1,7 @@
 import { FlatList, Pressable, StyleSheet, Text, View } from 'react-native';
 import Ionicons from '@react-native-vector-icons/ionicons';
 
+import { isSameAsCurrentDate } from '@/utils/getDate';
 import { MonthYear } from '@/types/calendar';
 import { colors } from '@/constants/colors';
 
@@ -10,9 +11,16 @@ import DateBox from './DateBox';
 interface CalendarProps {
   monthYear: MonthYear;
   onChangeMonth: (increment: number) => void;
+  selectedDate: number;
+  onPressDate: (date: number) => void;
 }
 
-const Calendar = ({ monthYear, onChangeMonth }: CalendarProps) => {
+const Calendar = ({
+  monthYear,
+  onChangeMonth,
+  selectedDate,
+  onPressDate,
+}: CalendarProps) => {
   const { month, year, firstDOW, lastDate } = monthYear;
 
   return (
@@ -37,7 +45,14 @@ const Calendar = ({ monthYear, onChangeMonth }: CalendarProps) => {
             id: idx,
             date: idx - firstDOW + 1,
           }))}
-          renderItem={({ item }) => <DateBox date={item.date} />}
+          renderItem={({ item }) => (
+            <DateBox
+              date={item.date}
+              isToday={isSameAsCurrentDate(year, month, item.date)}
+              selectedDate={selectedDate}
+              onPressDate={onPressDate}
+            />
+          )}
           keyExtractor={item => String(item.id)}
           numColumns={7}
         />
