@@ -47,10 +47,20 @@ const getNewMonthYear = (prevData: MonthYear, increment: number) => {
   return getMonthYearDetails(newMonthYear);
 };
 
+const isSameAsCurrentDate = (year: number, month: number, date: number) => {
+  const currentDate = getDateWithSeparator(new Date());
+  const inputDate = `${year}${String(month).padStart(2, '0')}${String(
+    date,
+  ).padStart(2, '0')}`;
+
+  return currentDate === inputDate;
+};
+
 export type { MonthYear };
 export {
   getDateDetails,
   getDateWithSeparator,
   getMonthYearDetails,
   getNewMonthYear,
+  isSameAsCurrentDate,
 };
