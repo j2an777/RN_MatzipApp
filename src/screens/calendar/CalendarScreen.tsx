@@ -33,6 +33,14 @@ const CalendarScreen = () => {
     setMonthYear(prev => getNewMonthYear(prev, increment));
   };
 
+  const handlePressSchedule = (postId: number) => {
+    navigation.navigate('Feed', {
+      screen: 'FeedDetail',
+      params: { id: postId },
+      initial: false,
+    });
+  };
+
   useEffect(() => {
     navigation.setOptions({
       headerRight: () => (
@@ -52,6 +60,7 @@ const CalendarScreen = () => {
         onChangeMonth={handleUpdateMonth}
         selectedDate={selectedDate}
         onPressDate={(date: number) => setSelectedDate(date)}
+        schedules={posts ?? {}}
       />
       <ScrollView
         style={styles.scheduleContainer}
@@ -62,6 +71,7 @@ const CalendarScreen = () => {
               key={post.id}
               subTitle={post.address}
               title={post.title}
+              onPress={() => handlePressSchedule(post.id)}
             />
           ))}
       </ScrollView>
