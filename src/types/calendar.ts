@@ -6,4 +6,12 @@ interface MonthYear {
   lastDate: number;
 }
 
-export type { MonthYear };
+interface CalendarPost {
+  id: number;
+  title: string;
+  address: string;
+}
+
+type ResponseCalendarPost = Record<number, CalendarPost[]>;
+
+export type { MonthYear, CalendarPost, ResponseCalendarPost };
