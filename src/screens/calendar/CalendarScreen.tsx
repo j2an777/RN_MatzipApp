@@ -1,16 +1,27 @@
+import {
+  Pressable,
+  SafeAreaView,
+  ScrollView,
+  StyleSheet,
+  Text,
+} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { Pressable, SafeAreaView, StyleSheet, Text } from 'react-native';
 import { useEffect, useState } from 'react';
 
 import { getMonthYearDetails, getNewMonthYear } from '@/utils/getDate';
+import useGetCalendarPosts from '@/hooks/queries/useGetCalendarPosts';
+import ScheduleItem from '@/components/calendar/ScheduleItem';
 import Calendar from '@/components/calendar/Calendar';
 import { colors } from '@/constants/colors';
 
 const CalendarScreen = () => {
   const navigation = useNavigation();
   const currentMonthYear = getMonthYearDetails(new Date());
+
   const [monthYear, setMonthYear] = useState(currentMonthYear);
   const [selectedDate, setSelectedDate] = useState(0);
+
+  const { data: posts } = useGetCalendarPosts(monthYear.year, monthYear.month);
 
   const moveToToday = () => {
     setSelectedDate(new Date().getDate());
@@ -42,6 +53,18 @@ const CalendarScreen = () => {
         selectedDate={selectedDate}
         onPressDate={(date: number) => setSelectedDate(date)}
       />
+      <ScrollView
+        style={styles.scheduleContainer}
+        contentContainerStyle={{ gap: 20 }}>
+        {posts &&
+          posts[selectedDate]?.map(post => (
+            <ScheduleItem
+              key={post.id}
+              subTitle={post.address}
+              title={post.title}
+            />
+          ))}
+      </ScrollView>
     </SafeAreaView>
   );
 };
@@ -49,6 +72,10 @@ const CalendarScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: colors.WHITE,
+  },
+  scheduleContainer: {
+    padding: 20,
     backgroundColor: colors.WHITE,
   },
 });
