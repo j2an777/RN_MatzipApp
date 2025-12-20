@@ -1,4 +1,5 @@
 import { Post, RequestUpdatePost } from '@/types/domain';
+import { ResponseCalendarPost } from '@/types/calendar';
 
 import instance from '.';
 
@@ -46,6 +47,15 @@ const updateFavoritePost = async (id: number): Promise<number> => {
   return data;
 };
 
+const getCalendarPosts = async (
+  year: number,
+  month: number,
+): Promise<ResponseCalendarPost> => {
+  const { data } = await instance.get(`/posts?year=${year}&month=${month}`);
+
+  return data;
+};
+
 export {
   createPost,
   getPost,
@@ -54,4 +64,5 @@ export {
   updatePost,
   getFavoritePosts,
   updateFavoritePost,
+  getCalendarPosts,
 };
