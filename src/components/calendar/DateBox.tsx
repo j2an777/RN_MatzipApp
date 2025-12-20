@@ -9,6 +9,7 @@ interface DateBoxProps {
   selectedDate: number;
   onPressDate: (date: number) => void;
   isToday: boolean;
+  hasSchedule: boolean;
 }
 
 const DateBox = ({
@@ -16,24 +17,28 @@ const DateBox = ({
   selectedDate,
   onPressDate,
   isToday,
+  hasSchedule,
 }: DateBoxProps) => {
   return (
     <Pressable style={styles.container} onPress={() => onPressDate(date)}>
       {date > 0 && (
-        <View
-          style={[
-            styles.dateContainer,
-            selectedDate === date && styles.selectedContainer,
-          ]}>
-          <Text
+        <>
+          <View
             style={[
-              styles.dateText,
-              isToday && styles.todayText,
-              selectedDate === date && styles.selectedDateText,
+              styles.dateContainer,
+              selectedDate === date && styles.selectedContainer,
             ]}>
-            {date}
-          </Text>
-        </View>
+            <Text
+              style={[
+                styles.dateText,
+                isToday && styles.todayText,
+                selectedDate === date && styles.selectedDateText,
+              ]}>
+              {date}
+            </Text>
+          </View>
+          {hasSchedule && <View style={styles.scheduleIndicator} />}
+        </>
       )}
     </Pressable>
   );
@@ -67,6 +72,13 @@ const styles = StyleSheet.create({
   todayText: {
     color: colors.PINK_700,
     fontWeight: 'bold',
+  },
+  scheduleIndicator: {
+    marginTop: 2,
+    width: 6,
+    height: 6,
+    borderRadius: 6,
+    backgroundColor: colors.GRAY_500,
   },
 });
 

@@ -2,7 +2,7 @@ import { FlatList, Pressable, StyleSheet, Text, View } from 'react-native';
 import Ionicons from '@react-native-vector-icons/ionicons';
 
 import { isSameAsCurrentDate } from '@/utils/getDate';
-import { MonthYear } from '@/types/calendar';
+import { MonthYear, ResponseCalendarPost } from '@/types/calendar';
 import { colors } from '@/constants/colors';
 
 import DayOfWeeks from './DayOfWeeks';
@@ -13,6 +13,7 @@ interface CalendarProps {
   onChangeMonth: (increment: number) => void;
   selectedDate: number;
   onPressDate: (date: number) => void;
+  schedules: ResponseCalendarPost;
 }
 
 const Calendar = ({
@@ -20,6 +21,7 @@ const Calendar = ({
   onChangeMonth,
   selectedDate,
   onPressDate,
+  schedules,
 }: CalendarProps) => {
   const { month, year, firstDOW, lastDate } = monthYear;
 
@@ -51,6 +53,7 @@ const Calendar = ({
               isToday={isSameAsCurrentDate(year, month, item.date)}
               selectedDate={selectedDate}
               onPressDate={onPressDate}
+              hasSchedule={!!schedules[item.date]}
             />
           )}
           keyExtractor={item => String(item.id)}
