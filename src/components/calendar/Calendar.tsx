@@ -1,10 +1,12 @@
 import { FlatList, Pressable, StyleSheet, Text, View } from 'react-native';
 import Ionicons from '@react-native-vector-icons/ionicons';
 
-import { isSameAsCurrentDate } from '@/utils/getDate';
 import { MonthYear, ResponseCalendarPost } from '@/types/calendar';
+import { isSameAsCurrentDate } from '@/utils/getDate';
 import { colors } from '@/constants/colors';
+import useModal from '@/hooks/useModal';
 
+import YearSelector from './YearSelector';
 import DayOfWeeks from './DayOfWeeks';
 import DateBox from './DateBox';
 
@@ -24,6 +26,12 @@ const Calendar = ({
   schedules,
 }: CalendarProps) => {
   const { month, year, firstDOW, lastDate } = monthYear;
+  const { isVisible, hide, show } = useModal();
+
+  const handleChangeYear = (selectYear: number) => {
+    onChangeMonth((selectYear - year) * 12);
+    hide();
+  };
 
   return (
     <>
@@ -31,10 +39,16 @@ const Calendar = ({
         <Pressable style={styles.monthButton} onPress={() => onChangeMonth(-1)}>
           <Ionicons name="arrow-back" size={25} color={colors.BLACK} />
         </Pressable>
-        <Pressable style={styles.monthYearContainer}>
+        <Pressable style={styles.monthYearContainer} onPress={show}>
           <Text style={styles.monthYearText}>
             {year}년 {month}월
           </Text>
+          <Ionicons
+            name="chevron-down"
+            size={20}
+            color={colors.GRAY_500}
+            style={{ marginTop: 4 }}
+          />
         </Pressable>
         <Pressable style={styles.monthButton} onPress={() => onChangeMonth(1)}>
           <Ionicons name="arrow-forward" size={25} color={colors.BLACK} />
@@ -60,6 +74,12 @@ const Calendar = ({
           numColumns={7}
         />
       </View>
+      <YearSelector
+        isVisible={isVisible}
+        currentYear={year}
+        onChangeYear={handleChangeYear}
+        hide={hide}
+      />
     </>
   );
 };
@@ -76,6 +96,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     padding: 10,
+    gap: 4,
   },
   monthButton: {
     padding: 10,
