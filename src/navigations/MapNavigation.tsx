@@ -39,6 +39,13 @@ const MapStack = createStackNavigator({
     },
     SearchLocation: {
       screen: SearchLocationScreen,
+      options: {
+        titl: '장소 검색',
+        presentation: 'modal',
+        cardStyle: {
+          backgroundColor: colors.WHITE,
+        },
+      },
     },
   },
 });
