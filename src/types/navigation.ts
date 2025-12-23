@@ -1,19 +1,19 @@
 import { NavigatorScreenParams } from '@react-navigation/native';
 import { LatLng } from 'react-native-maps';
 
-export type MapStackParamList = {
+type MapStackParamList = {
   MapHome: undefined;
   AddLocation: { location: LatLng };
   SearchLocation: undefined;
 };
 
-export type AuthStackParamList = {
+type AuthStackParamList = {
   AuthHome: undefined;
   Login: undefined;
   Signup: undefined;
 };
 
-export type FeedStackParamList = {
+type FeedStackParamList = {
   FeedList: undefined;
   FeedDetail: { id: number };
   FeedFavorite: undefined;
@@ -21,10 +21,24 @@ export type FeedStackParamList = {
   ImageZoom: { id?: number; index: number };
 };
 
-export type MainDrawerParamList = {
+type SettingStackParamList = {
+  SettingHome: undefined;
+  EditProfile: undefined;
+};
+
+type MainDrawerParamList = {
   Map: NavigatorScreenParams<MapStackParamList>;
   Feed: NavigatorScreenParams<FeedStackParamList>;
   Calendar: undefined;
+  Setting: undefined;
+};
+
+export type {
+  MapStackParamList,
+  AuthStackParamList,
+  FeedStackParamList,
+  MainDrawerParamList,
+  SettingStackParamList,
 };
 
 declare global {
