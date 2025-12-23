@@ -1,4 +1,4 @@
-import { StyleSheet, View } from 'react-native';
+import { Keyboard, StyleSheet, View } from 'react-native';
 import { useState } from 'react';
 
 import SearchRegionResult from '@/components/map/SearchRegionResult';
@@ -21,11 +21,15 @@ const SearchLocationScreen = () => {
     totalCount,
   } = useSearchLocation(searchKeyword, userLocation);
 
-  const handleSubmitKeyword = () => setSearchKeyword(keyword);
+  const handleSubmitKeyword = () => {
+    setSearchKeyword(keyword);
+    Keyboard.dismiss();
+  };
 
   return (
     <View style={styles.constainer}>
       <SearchInput
+        autoFocus
         placeholder="검색할 장소를 입력해주세요."
         value={keyword}
         onChangeText={setKeyword}
