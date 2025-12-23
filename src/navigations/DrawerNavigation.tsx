@@ -8,6 +8,7 @@ import DrawerIcons from '@/components/common/DrawerIcons';
 import { MainDrawerParamList } from '@/types/navigation';
 import { colors } from '@/constants/colors';
 
+import SettingStack from './SettingNavigation';
 import FeedStack from './FeedNavigation';
 import MapStack from './MapNavigation';
 
@@ -63,6 +64,16 @@ const MainDrawer = createDrawerNavigator({
       options: {
         title: '캘린더',
         headerLeft: () => <DrawerButton />,
+      },
+    },
+    Setting: {
+      screen: SettingStack,
+      options: {
+        title: '설정',
+        headerShown: false,
+        drawerItemStyle: {
+          height: 0,
+        },
       },
     },
   },
