@@ -1,6 +1,7 @@
 import { StyleSheet, View } from 'react-native';
 import { useState } from 'react';
 
+import SearchRegionResult from '@/components/map/SearchRegionResult';
 import useSearchLocation from '@/hooks/useSearchLocation';
 import SearchInput from '@/components/map/SearchInput';
 import useUserLocation from '@/hooks/useUserLocation';
@@ -22,6 +23,7 @@ const SearchLocationScreen = () => {
         onChangeText={setKeyword}
         onSubmit={handleSubmitKeyword}
       />
+      <SearchRegionResult regionInfo={res} />
     </View>
   );
 };
