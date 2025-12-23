@@ -3,6 +3,7 @@ import { useState } from 'react';
 
 import SearchRegionResult from '@/components/map/SearchRegionResult';
 import useSearchLocation from '@/hooks/useSearchLocation';
+import Pagination from '@/components/common/Pagination';
 import SearchInput from '@/components/map/SearchInput';
 import useUserLocation from '@/hooks/useUserLocation';
 
@@ -11,7 +12,14 @@ const SearchLocationScreen = () => {
   const [searchKeyword, setSearchKeyword] = useState('');
 
   const { userLocation } = useUserLocation();
-  const res = useSearchLocation(searchKeyword, userLocation);
+  const {
+    regionInfo,
+    pageParam,
+    fetchNextPage,
+    fetchPrevPage,
+    hasNextPage,
+    totalCount,
+  } = useSearchLocation(searchKeyword, userLocation);
 
   const handleSubmitKeyword = () => setSearchKeyword(keyword);
 
@@ -23,7 +31,14 @@ const SearchLocationScreen = () => {
         onChangeText={setKeyword}
         onSubmit={handleSubmitKeyword}
       />
-      <SearchRegionResult regionInfo={res} />
+      <SearchRegionResult regionInfo={regionInfo} />
+      <Pagination
+        pageParam={pageParam}
+        fetchNextPage={fetchNextPage}
+        fetchPrevPage={fetchPrevPage}
+        hasNextPage={hasNextPage}
+        totalLength={totalCount}
+      />
     </View>
   );
 };
