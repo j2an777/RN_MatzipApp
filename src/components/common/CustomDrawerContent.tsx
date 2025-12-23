@@ -11,11 +11,14 @@ import {
   DrawerContentScrollView,
   DrawerItemList,
 } from '@react-navigation/drawer';
+import Ionicons from '@react-native-vector-icons/ionicons';
+import { useNavigation } from '@react-navigation/native';
 
 import useAuth from '@/hooks/queries/useAuth';
 import { colors } from '@/constants/colors';
 
 const CustomDrawerContent = (props: DrawerContentComponentProps) => {
+  const navigation = useNavigation();
   const { auth } = useAuth();
 
   return (
@@ -36,7 +39,12 @@ const CustomDrawerContent = (props: DrawerContentComponentProps) => {
         <DrawerItemList {...props} />
       </DrawerContentScrollView>
       <View style={styles.bottomContainer}>
-        <Text style={styles.menuText}>설정</Text>
+        <Pressable
+          style={styles.bottomMenu}
+          onPress={() => navigation.navigate('Setting')}>
+          <Ionicons name="settings-outline" size={20} color={colors.BLACK} />
+          <Text style={styles.menuText}>설정</Text>
+        </Pressable>
       </View>
     </SafeAreaView>
   );
@@ -77,6 +85,12 @@ const styles = StyleSheet.create({
   },
   menuText: {
     fontSize: 15,
+    marginBottom: 2,
+  },
+  bottomMenu: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
   },
 });
 
