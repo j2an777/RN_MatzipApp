@@ -15,6 +15,7 @@ import MarkerModal from '@/components/map/MarkerModal';
 import useUserLocation from '@/hooks/useUserLocation';
 import useMoveMapView from '@/hooks/useMoveMapView';
 import usePermission from '@/hooks/usePermission';
+import useLocationStore from '@/store/location';
 import { numbers } from '@/constants/numbers';
 import { colors } from '@/constants/colors';
 import useModal from '@/hooks/useModal';
@@ -22,10 +23,10 @@ import useModal from '@/hooks/useModal';
 type Navigation = StackNavigationProp<MapStackParamList>;
 
 const MapHomeScreen = () => {
-  const [selectLocation, setSelectLocation] = useState<LatLng | null>();
   const [markerId, setMarkerId] = useState<number>();
 
   const { moveMapView, handleChangeDelta, mapRef } = useMoveMapView();
+  const { selectLocation, setSelectLocation } = useLocationStore();
   const { userLocation, isUserLocationError } = useUserLocation();
   const { isVisible, hide, show } = useModal();
   const navigation = useNavigation<Navigation>();
