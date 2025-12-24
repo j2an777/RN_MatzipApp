@@ -1,11 +1,16 @@
 import { SafeAreaView, StyleSheet } from 'react-native';
+import { Suspense } from 'react';
 
 import FeedFavoriteList from '@/components/feed/FeedFavoriteList';
+import Indicator from '@/components/common/Indicator';
+import { colors } from '@/constants/colors';
 
 const FeedFavoriteScreen = () => {
   return (
     <SafeAreaView style={styles.container}>
-      <FeedFavoriteList />
+      <Suspense fallback={<Indicator size={'large'} color={colors.PINK_500} />}>
+        <FeedFavoriteList />
+      </Suspense>
     </SafeAreaView>
   );
 };
