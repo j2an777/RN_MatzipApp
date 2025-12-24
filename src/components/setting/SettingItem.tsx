@@ -11,7 +11,8 @@ const SettingItem = ({ title, color, ...props }: SettingItemProps) => {
   return (
     <Pressable
       style={({ pressed }) => [
-        pressed ? styles.pressedContainer : styles.container,
+        pressed && styles.pressedContainer,
+        styles.container,
       ]}
       {...props}>
       <Text style={[styles.titleText, { color: color ? color : colors.BLACK }]}>
