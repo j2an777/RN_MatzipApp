@@ -2,6 +2,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 
 import SettingHomeScreen from '@/screens/setting/SettingHomeScreen';
 import EditProfileScreen from '@/screens/setting/EditProfileScreen';
+import DrawerButton from '@/components/common/DrawerButton';
 import { colors } from '@/constants/colors';
 
 const SettingStack = createStackNavigator({
@@ -25,6 +26,7 @@ const SettingStack = createStackNavigator({
       screen: SettingHomeScreen,
       options: {
         title: '설정',
+        headerLeft: () => <DrawerButton />,
         cardStyle: {
           backgroundColor: colors.GRAY_200,
         },
