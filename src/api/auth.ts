@@ -1,20 +1,15 @@
+import {
+  Profile,
+  RequestUpdateProfile,
+  RequestUser,
+  ResponseToken,
+} from '@/types/domain';
 import { getEncryptStorage } from '@/utils/encryptStorage';
-import { Profile } from '@/types/domain';
 
 import instance from '.';
 
-type RequestUser = {
-  email: string;
-  password: string;
-};
-
 const postSignup = async ({ email, password }: RequestUser): Promise<void> => {
   await instance.post('/auth/signup', { email, password });
-};
-
-type ResponseToken = {
-  accessToken: string;
-  refreshToken: string;
 };
 
 const postLogin = async ({
@@ -45,4 +40,17 @@ const logout = async () => {
   await instance.post('/auth/logout');
 };
 
-export { postLogin, postSignup, getProfile, getAccessToken, logout };
+const editProfile = async (body: RequestUpdateProfile): Promise<Profile> => {
+  const { data } = await instance.patch('/auth/me', body);
+
+  return data;
+};
+
+export {
+  postLogin,
+  postSignup,
+  getProfile,
+  getAccessToken,
+  logout,
+  editProfile,
+};

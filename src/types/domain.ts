@@ -28,9 +28,30 @@ interface Profile {
   loginType: 'email' | 'kakao' | 'apple';
 }
 
+type RequestUser = {
+  email: string;
+  password: string;
+};
+
+type ResponseToken = {
+  accessToken: string;
+  refreshToken: string;
+};
+
+type RequestUpdateProfile = Pick<Profile, 'nickname' | 'imageUri'>;
+
 type RequestUpdatePost = {
   id: number;
   body: Omit<Post, 'id' | 'longitude' | 'latitude' | 'address'>;
 };
 
-export type { ImageUri, Marker, Post, Profile, RequestUpdatePost };
+export type {
+  ImageUri,
+  Marker,
+  Post,
+  Profile,
+  RequestUpdatePost,
+  RequestUpdateProfile,
+  RequestUser,
+  ResponseToken,
+};
