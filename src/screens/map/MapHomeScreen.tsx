@@ -4,6 +4,7 @@ import { Alert, StyleSheet, View } from 'react-native';
 import Toast from 'react-native-toast-message';
 import { useState } from 'react';
 
+import MarkerFilterModal from '@/components/map/MarkerFilterModal';
 import { StackNavigationProp } from '@react-navigation/stack';
 import DrawerButton from '@/components/common/DrawerButton';
 import CustomMarker from '@/components/common/CustomMarker';
@@ -18,6 +19,7 @@ import usePermission from '@/hooks/usePermission';
 import useLocationStore from '@/store/location';
 import { numbers } from '@/constants/numbers';
 import { colors } from '@/constants/colors';
+import useFilterStore from '@/store/filter';
 import useModal from '@/hooks/useModal';
 
 type Navigation = StackNavigationProp<MapStackParamList>;
@@ -28,10 +30,20 @@ const MapHomeScreen = () => {
   const { moveMapView, handleChangeDelta, mapRef } = useMoveMapView();
   const { selectLocation, setSelectLocation } = useLocationStore();
   const { userLocation, isUserLocationError } = useUserLocation();
-  const { isVisible, hide, show } = useModal();
   const navigation = useNavigation<Navigation>();
-  const { data: markers = [] } = useGetMarkers();
+  const { filters } = useFilterStore();
   const inset = useSafeAreaInsets();
+  const markerModal = useModal();
+  const filterModal = useModal();
+
+  const { data: markers = [] } = useGetMarkers({
+    select: data =>
+      data.filter(
+        marker =>
+          filters[marker.color] === true &&
+          filters[String(marker.score)] === true,
+      ),
+  });
 
   usePermission('LOCATION');
 
@@ -51,7 +63,7 @@ const MapHomeScreen = () => {
   const handlePressMarker = (id: number, coordinate: LatLng) => {
     setMarkerId(id);
     moveMapView(coordinate);
-    show();
+    markerModal.show();
   };
 
   const handlePressAddPost = () => {
@@ -113,6 +125,7 @@ const MapHomeScreen = () => {
           iconName="magnifying-glass"
           onPress={() => navigation.navigate('SearchLocation')}
         />
+        <MapIconButton iconName="filter" onPress={filterModal.show} />
         <MapIconButton iconName="plus" onPress={handlePressAddPost} />
         <MapIconButton
           iconName="location-crosshairs"
@@ -121,8 +134,12 @@ const MapHomeScreen = () => {
       </View>
       <MarkerModal
         markerId={Number(markerId)}
-        isVisible={isVisible}
-        hide={hide}
+        isVisible={markerModal.isVisible}
+        hide={markerModal.hide}
+      />
+      <MarkerFilterModal
+        isVisible={filterModal.isVisible}
+        hideAction={filterModal.hide}
       />
     </>
   );
