@@ -1,4 +1,12 @@
-import { Image, Platform, Pressable, StyleSheet, View } from 'react-native';
+import {
+  Image,
+  Keyboard,
+  Platform,
+  Pressable,
+  StyleSheet,
+  View,
+} from 'react-native';
+import Toast from 'react-native-toast-message';
 
 import EditProfileActionSheet from '@/components/setting/EditProfileActionSheet';
 import FixedBottomCTA from '@/components/common/FixedBottomCTA';
@@ -13,7 +21,7 @@ import useForm from '@/hooks/useForm';
 import { baseUrls } from '@/api';
 
 const EditProfileScreen = () => {
-  const { auth } = useAuth();
+  const { auth, profileMutation } = useAuth();
   const imageAction = useModal();
 
   const imagePicker = useImagePicker({
@@ -29,6 +37,25 @@ const EditProfileScreen = () => {
 
   const handlePressImage = () => {
     imageAction.show();
+    Keyboard.dismiss();
+  };
+
+  const handleSubmit = () => {
+    profileMutation.mutate(
+      {
+        ...editProfileForm.values,
+        imageUri: imagePicker.imageUris[0]?.uri,
+      },
+      {
+        onSuccess: () => {
+          Toast.show({
+            type: 'success',
+            text1: '프로필이 변경되었습니다.',
+            position: 'bottom',
+          });
+        },
+      },
+    );
   };
 
   return (
@@ -63,7 +90,7 @@ const EditProfileScreen = () => {
           placeholder="닉네임을 입력해주세요."
         />
       </View>
-      <FixedBottomCTA label="저장" onPress={() => {}} />
+      <FixedBottomCTA label="저장" onPress={handleSubmit} />
       <EditProfileActionSheet
         isVisible={imageAction.isVisible}
         hideAction={imageAction.hide}
