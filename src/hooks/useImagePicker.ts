@@ -1,5 +1,6 @@
 import ImageCropPicker from 'react-native-image-crop-picker';
 import Toast from 'react-native-toast-message';
+import { Alert } from 'react-native';
 import { useState } from 'react';
 
 import getFormDataImages from '@/utils/getFormDataImages';
@@ -7,7 +8,17 @@ import { ImageUri } from '@/types/domain';
 
 import useUploadImages from './queries/useUploadImages';
 
-const useImagePicker = ({ initialImages }: { initialImages: ImageUri[] }) => {
+interface UseImagePickerProps {
+  initialImages: ImageUri[];
+  mode?: 'multiple' | 'single';
+  onSettled?: () => void;
+}
+
+const useImagePicker = ({
+  initialImages,
+  mode = 'multiple',
+  onSettled,
+}: UseImagePickerProps) => {
   const { mutate } = useUploadImages();
   const [imageUris, setImageUris] = useState<ImageUri[]>(initialImages);
 
@@ -20,17 +31,28 @@ const useImagePicker = ({ initialImages }: { initialImages: ImageUri[] }) => {
     setImageUris(newImageUris);
   };
 
+  const replaceImageUri = (uris: string[]) => {
+    if (uris.length > 1) {
+      Alert.alert('이미지 개수 초과', '추가 가능한 이미지는 최대 1개입니다.');
+      return;
+    }
+
+    setImageUris([...uris.map(uri => ({ uri }))]);
+  };
+
   const handleChangeOpenPicker = () => {
     ImageCropPicker.openPicker({
       mediaType: 'photo',
       multiple: true,
       includeBase64: true,
-      maxFiles: 5,
+      maxFiles: mode === 'multiple' ? 5 : 1,
     })
       .then(images => {
         const formData = getFormDataImages('images', images);
         mutate(formData, {
-          onSuccess: data => addImageUris(data),
+          onSuccess: data =>
+            mode === 'multiple' ? addImageUris(data) : replaceImageUri(data),
+          onSettled: () => onSettled && onSettled(),
         });
       })
       .catch(e => {
