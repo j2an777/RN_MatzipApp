@@ -2,6 +2,7 @@ import { useMutation, useQuery } from '@tanstack/react-query';
 import { useEffect } from 'react';
 
 import {
+  editProfile,
   getAccessToken,
   getProfile,
   logout,
@@ -93,6 +94,19 @@ const useLogout = (mutationOptions?: UseMutationCustomOptions) => {
   });
 };
 
+const useUpdateProfile = (mutationOptions?: UseMutationCustomOptions) => {
+  return useMutation({
+    mutationFn: editProfile,
+    onSuccess: newProfile => {
+      queryClient.setQueryData(
+        [queryKeys.AUTH, queryKeys.GET_PROFILE],
+        newProfile,
+      );
+    },
+    ...mutationOptions,
+  });
+};
+
 const useAuth = () => {
   const signupMutation = useSignup();
   const loginMutation = useLogin();
@@ -102,6 +116,7 @@ const useAuth = () => {
   });
 
   const logoutMutation = useLogout();
+  const profileMutation = useUpdateProfile();
 
   return {
     auth: {
@@ -114,6 +129,7 @@ const useAuth = () => {
     loginMutation,
     isLogin,
     logoutMutation,
+    profileMutation,
   };
 };
 
