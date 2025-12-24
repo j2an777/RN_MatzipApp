@@ -1,5 +1,6 @@
 import {
   Image,
+  Platform,
   Pressable,
   SafeAreaView,
   StyleSheet,
@@ -16,6 +17,7 @@ import { useNavigation } from '@react-navigation/native';
 
 import useAuth from '@/hooks/queries/useAuth';
 import { colors } from '@/constants/colors';
+import { baseUrls } from '@/api';
 
 const CustomDrawerContent = (props: DrawerContentComponentProps) => {
   const navigation = useNavigation();
@@ -30,7 +32,15 @@ const CustomDrawerContent = (props: DrawerContentComponentProps) => {
         <Pressable style={styles.profileContainer}>
           <View style={styles.userImageContainer}>
             <Image
-              source={require('@/assets/default-user.png')}
+              source={
+                auth.imageUri
+                  ? {
+                      uri: `${
+                        Platform.OS === 'ios' ? baseUrls.ios : baseUrls.android
+                      }/${auth.imageUri}`,
+                    }
+                  : require('@/assets/default-user.png')
+              }
               style={styles.userImage}
             />
           </View>
