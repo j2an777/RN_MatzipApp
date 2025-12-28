@@ -1,9 +1,11 @@
 import { SafeAreaView, StyleSheet, TextInput, View } from 'react-native';
+import Toast from 'react-native-toast-message';
 import { useRef } from 'react';
 
 import CustomButton from '@/components/common/CustomButton';
-import { validationSignup } from '@/utils/validation';
 import InputField from '@/components/common/InputField';
+import { validationSignup } from '@/utils/validation';
+import { errorMessages } from '@/constants/messages';
 import useAuth from '@/hooks/queries/useAuth';
 import useForm from '@/hooks/useForm';
 
@@ -25,7 +27,14 @@ const SignupScreen = () => {
     const { email, password } = signup.values;
     signupMutation.mutate(
       { email, password },
-      { onSuccess: () => loginMutation.mutate({ email, password }) },
+      {
+        onSuccess: () => loginMutation.mutate({ email, password }),
+        onError: error =>
+          Toast.show({
+            type: 'error',
+            text1: error.response?.data.message || errorMessages.UNEXPECT_ERROR,
+          }),
+      },
     );
   };
 
