@@ -21,12 +21,11 @@ import queryClient from '@/api/queryClient';
 import { Profile } from '@/types/domain';
 
 const useSignup = (mutationOptions?: UseMutationCustomOptions) => {
-  const res = useMutation({
+  return useMutation({
     mutationFn: postSignup,
+    throwOnError: error => Number(error.response?.status) >= 500,
     ...mutationOptions,
   });
-
-  return res;
 };
 
 const useLogin = (mutationOptions?: UseMutationCustomOptions) => {
@@ -39,6 +38,7 @@ const useLogin = (mutationOptions?: UseMutationCustomOptions) => {
         queryKey: [queryKeys.AUTH, queryKeys.GET_ACCESS_TOKEN],
       });
     },
+    throwOnError: error => Number(error.response?.status) >= 500,
     ...mutationOptions,
   });
 };
