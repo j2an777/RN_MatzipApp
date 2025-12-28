@@ -14,6 +14,7 @@ import { useNavigation } from '@react-navigation/native';
 import { MapStackParamList } from '@/types/navigation';
 import MarkerModal from '@/components/map/MarkerModal';
 import useUserLocation from '@/hooks/useUserLocation';
+import useThemeStore, { Theme } from '@/store/theme';
 import useMoveMapView from '@/hooks/useMoveMapView';
 import usePermission from '@/hooks/usePermission';
 import useLocationStore from '@/store/location';
@@ -32,9 +33,11 @@ const MapHomeScreen = () => {
   const { userLocation, isUserLocationError } = useUserLocation();
   const navigation = useNavigation<Navigation>();
   const { filters } = useFilterStore();
+  const { theme } = useThemeStore();
   const inset = useSafeAreaInsets();
   const markerModal = useModal();
   const filterModal = useModal();
+  const styles = styling(theme);
 
   const { data: markers = [] } = useGetMarkers({
     select: data =>
@@ -86,9 +89,10 @@ const MapHomeScreen = () => {
     <>
       <DrawerButton
         style={[styles.drawerButton, { top: inset.top + 10 }]}
-        color={colors.WHITE}
+        color={colors[theme].WHITE}
       />
       <MapView
+        userInterfaceStyle={theme}
         googleMapId="792e4dcbf17857a42e139851"
         style={styles.container}
         ref={mapRef}
@@ -145,28 +149,29 @@ const MapHomeScreen = () => {
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  drawerButton: {
-    position: 'absolute',
-    left: 0,
-    top: 0,
-    zIndex: 1,
-    paddingVertical: 10,
-    paddingHorizontal: 15,
-    backgroundColor: colors.PINK_700,
-    borderTopRightRadius: 50,
-    borderBottomRightRadius: 50,
-    boxShadow: '1px 1px 3px rgba(0, 0, 0, 0.5)',
-  },
-  buttonList: {
-    position: 'absolute',
-    bottom: 30,
-    right: 20,
-    zIndex: 1,
-  },
-});
+const styling = (theme: Theme) =>
+  StyleSheet.create({
+    container: {
+      flex: 1,
+    },
+    drawerButton: {
+      position: 'absolute',
+      left: 0,
+      top: 0,
+      zIndex: 1,
+      paddingVertical: 10,
+      paddingHorizontal: 15,
+      backgroundColor: colors[theme].PINK_700,
+      borderTopRightRadius: 50,
+      borderBottomRightRadius: 50,
+      boxShadow: '1px 1px 3px rgba(0, 0, 0, 0.5)',
+    },
+    buttonList: {
+      position: 'absolute',
+      bottom: 30,
+      right: 20,
+      zIndex: 1,
+    },
+  });
 
 export default MapHomeScreen;

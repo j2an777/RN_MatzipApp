@@ -7,6 +7,7 @@ import SettingItem from '@/components/setting/SettingItem';
 import { SettingStackParamList } from '@/types/navigation';
 import useAuth from '@/hooks/queries/useAuth';
 import { colors } from '@/constants/colors';
+import useThemeStore from '@/store/theme';
 import useModal from '@/hooks/useModal';
 
 type Navigation = NavigationProp<SettingStackParamList>;
@@ -15,6 +16,7 @@ const SettingHomeScreen = () => {
   const navigation = useNavigation<Navigation>();
   const { logoutMutation } = useAuth();
   const darkModeAction = useModal();
+  const { theme } = useThemeStore();
 
   return (
     <SafeAreaView style={styles.container}>
@@ -28,7 +30,7 @@ const SettingHomeScreen = () => {
         <View style={styles.space} />
         <SettingItem
           title="로그아웃"
-          color={colors.RED_500}
+          color={colors[theme].RED_500}
           onPress={() => logoutMutation.mutate(null)}
         />
         <DarkModeActionSheet

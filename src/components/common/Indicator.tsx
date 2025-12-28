@@ -9,7 +9,7 @@ import { colors } from '@/constants/colors';
 
 const Indicator = ({
   size = 'small',
-  color = colors.GRAY_500,
+  color = colors['light'].GRAY_500,
 }: ActivityIndicatorProps) => {
   return (
     <View style={styles.container}>

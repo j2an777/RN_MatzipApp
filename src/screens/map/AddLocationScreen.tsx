@@ -6,8 +6,8 @@ import DatePicker from 'react-native-date-picker';
 import { useState } from 'react';
 
 import PreviewImageList from '@/components/common/PreviewImageList';
-import FixedBottomCTA from '@/components/common/FixedBottomCTA';
 import MarkerColorInput from '@/components/map/MarkerColorInput';
+import FixedBottomCTA from '@/components/common/FixedBottomCTA';
 import CustomButton from '@/components/common/CustomButton';
 import useCreatePost from '@/hooks/queries/useCreatePost';
 import InputField from '@/components/common/InputField';
@@ -20,6 +20,7 @@ import useImagePicker from '@/hooks/useImagePicker';
 import useGetAddress from '@/hooks/useGetAddress';
 import usePermission from '@/hooks/usePermission';
 import { colors } from '@/constants/colors';
+import useThemeStore from '@/store/theme';
 import useForm from '@/hooks/useForm';
 
 type Props = StackScreenProps<MapStackParamList, 'AddLocation'>;
@@ -29,6 +30,7 @@ const AddLocationScreen = ({ route }: Props) => {
   const navigate = useNavigation();
   const inset = useSafeAreaInsets();
   const address = useGetAddress(location);
+  const { theme } = useThemeStore();
   usePermission('PHOTO');
 
   const { mutate } = useCreatePost();
@@ -43,7 +45,7 @@ const AddLocationScreen = ({ route }: Props) => {
       title: '',
       description: '',
       date: new Date(),
-      color: colors.PINK_400,
+      color: colors[theme].PINK_400,
       score: 3,
     },
     validate: validateAddPost,

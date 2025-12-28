@@ -2,12 +2,14 @@ import FontAwesome6 from '@react-native-vector-icons/fontawesome6';
 
 import { MainDrawerParamList } from '@/types/navigation';
 import { colors } from '@/constants/colors';
+import { Theme } from '@/store/theme';
 
 type DrawerIconName = 'map' | 'book' | 'calendar';
 
 const DrawerIcons = (
   routeName: keyof MainDrawerParamList,
   focused: boolean,
+  theme: Theme,
 ) => {
   let iconName: DrawerIconName = 'map';
 
@@ -31,7 +33,7 @@ const DrawerIcons = (
       name={iconName}
       size={20}
       iconStyle="solid"
-      color={focused ? colors.WHITE : colors.GRAY_300}
+      color={focused ? colors[theme].WHITE : colors[theme].GRAY_300}
     />
   );
 };

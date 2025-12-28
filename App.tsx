@@ -11,7 +11,7 @@ const toastConfig = {
   success: (props: BaseToastProps) => (
     <BaseToast
       {...props}
-      style={{ borderLeftColor: colors.BLUE_500 }}
+      style={{ borderLeftColor: colors['light'].BLUE_500 }}
       text1Style={{ fontSize: 14 }}
       text2Style={{ fontSize: 12 }}
     />
@@ -20,7 +20,7 @@ const toastConfig = {
   error: (props: BaseToastProps) => (
     <BaseToast
       {...props}
-      style={{ borderLeftColor: colors.RED_500 }}
+      style={{ borderLeftColor: colors['light'].RED_500 }}
       text1Style={{ fontSize: 14 }}
       text2Style={{ fontSize: 12 }}
     />
