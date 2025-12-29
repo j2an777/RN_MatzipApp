@@ -20,6 +20,12 @@ const postLogin = async ({
   return data;
 };
 
+const kakaoLogin = async (token: string): Promise<ResponseToken> => {
+  const { data } = await instance.post('/auth/oauth/kako', token);
+
+  return data;
+};
+
 const getProfile = async (): Promise<Profile> => {
   const { data } = await instance.get('/auth/me');
   return data;
@@ -53,4 +59,5 @@ export {
   getAccessToken,
   logout,
   editProfile,
+  kakaoLogin,
 };
