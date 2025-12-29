@@ -11,6 +11,7 @@ type AuthStackParamList = {
   AuthHome: undefined;
   Login: undefined;
   Signup: undefined;
+  KakaoLogin: undefined;
 };
 
 type FeedStackParamList = {

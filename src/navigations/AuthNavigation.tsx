@@ -1,5 +1,6 @@
 import { createStackNavigator } from '@react-navigation/stack';
 
+import KakaoLoginScreen from '@/screens/auth/KaKaoLoginScreen';
 import AuthHomeScreen from '@/screens/auth/AuthHomeScreen';
 import SignupScreen from '@/screens/auth/SignupScreen';
 import LoginScreen from '@/screens/auth/LoginScreen';
@@ -42,6 +43,11 @@ const AuthNavigation = () => {
         name="Signup"
         component={SignupScreen}
         options={{ title: '회원가입' }}
+      />
+      <Stack.Screen
+        name="KakaoLogin"
+        component={KakaoLoginScreen}
+        options={{ title: '카카오 로그인' }}
       />
     </Stack.Navigator>
   );
