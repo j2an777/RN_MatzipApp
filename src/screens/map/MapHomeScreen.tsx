@@ -1,6 +1,7 @@
-import MapView, { LatLng, Marker, PROVIDER_GOOGLE } from 'react-native-maps';
+import { LatLng, Marker, PROVIDER_GOOGLE } from 'react-native-maps';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Alert, StyleSheet, View } from 'react-native';
+import MapView from 'react-native-map-clustering';
 import Toast from 'react-native-toast-message';
 import { useState } from 'react';
 
@@ -98,6 +99,7 @@ const MapHomeScreen = () => {
         ref={mapRef}
         provider={PROVIDER_GOOGLE}
         onRegionChangeComplete={handleChangeDelta}
+        clusterColor={colors['light'].PINK_700}
         onLongPress={({ nativeEvent }) =>
           setSelectLocation(nativeEvent.coordinate)
         }
