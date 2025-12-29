@@ -8,6 +8,7 @@ import {
 } from 'react-native';
 
 import { colors } from '@/constants/colors';
+import useThemeStore, { Theme } from '@/store/theme';
 
 interface CustomButtonProps extends PressableProps {
   label: string | React.ReactNode;
@@ -23,6 +24,9 @@ const CustomButton = ({
   style = null,
   ...props
 }: CustomButtonProps) => {
+  const { theme } = useThemeStore();
+  const styles = styling(theme);
+
   return (
     <Pressable
       style={({ pressed }) => [
@@ -42,41 +46,42 @@ const CustomButton = ({
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    borderRadius: 3,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  filled: {
-    backgroundColor: colors.PINK_700,
-  },
-  outlined: {
-    backgroundColor: colors.WHITE,
-    borderColor: colors.PINK_700,
-    borderWidth: 1,
-  },
-  filledText: {
-    fontSize: 14,
-    fontWeight: 'bold',
-    color: colors.WHITE,
-  },
-  outlinedText: {
-    fontSize: 14,
-    fontWeight: 'bold',
-    color: colors.PINK_700,
-  },
-  large: {
-    width: '100%',
-    height: 45,
-  },
-  small: {
-    paddingHorizontal: 10,
-    height: 35,
-  },
-  pressed: {
-    opacity: 0.8,
-  },
-});
+const styling = (theme: Theme) =>
+  StyleSheet.create({
+    container: {
+      borderRadius: 3,
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+    filled: {
+      backgroundColor: colors[theme].PINK_700,
+    },
+    outlined: {
+      backgroundColor: colors[theme].WHITE,
+      borderColor: colors[theme].PINK_700,
+      borderWidth: 1,
+    },
+    filledText: {
+      fontSize: 14,
+      fontWeight: 'bold',
+      color: colors[theme].WHITE,
+    },
+    outlinedText: {
+      fontSize: 14,
+      fontWeight: 'bold',
+      color: colors[theme].PINK_700,
+    },
+    large: {
+      width: '100%',
+      height: 45,
+    },
+    small: {
+      paddingHorizontal: 10,
+      height: 35,
+    },
+    pressed: {
+      opacity: 0.8,
+    },
+  });
 
 export default CustomButton;

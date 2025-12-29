@@ -7,6 +7,7 @@ import {
 } from 'react-native';
 import { Ref } from 'react';
 
+import useThemeStore, { Theme } from '@/store/theme';
 import { colors } from '@/constants/colors';
 
 interface InputFieldProps extends TextInputProps {
@@ -23,6 +24,9 @@ const InputField = ({
   disabled = false,
   ...props
 }: InputFieldProps) => {
+  const { theme } = useThemeStore();
+  const styles = styling(theme);
+
   return (
     <View>
       <TextInput
@@ -30,7 +34,7 @@ const InputField = ({
         autoCapitalize="none"
         spellCheck={false}
         autoCorrect={false}
-        placeholderTextColor={colors.GRAY_500}
+        placeholderTextColor={colors[theme].GRAY_500}
         style={[
           styles.input,
           disabled && styles.disabled,
@@ -47,34 +51,35 @@ const InputField = ({
   );
 };
 
-const styles = StyleSheet.create({
-  input: {
-    borderWidth: 1,
-    borderColor: colors.GRAY_200,
-    justifyContent: 'center',
-    height: 50,
-    paddingHorizontal: 10,
-    fontSize: 16,
-    color: colors.BLACK,
-  },
-  inputError: {
-    borderWidth: 1,
-    borderColor: colors.RED_300,
-  },
-  errorText: {
-    color: colors.RED_500,
-    fontSize: 12,
-    paddingTop: 5,
-  },
-  multiline: {
-    height: 150,
-    paddingVertical: 10,
-    textAlignVertical: 'top',
-  },
-  disabled: {
-    backgroundColor: colors.GRAY_200,
-    color: colors.GRAY_700,
-  },
-});
+const styling = (theme: Theme) =>
+  StyleSheet.create({
+    input: {
+      borderWidth: 1,
+      borderColor: colors[theme].GRAY_200,
+      justifyContent: 'center',
+      height: 50,
+      paddingHorizontal: 10,
+      fontSize: 16,
+      color: colors[theme].BLACK,
+    },
+    inputError: {
+      borderWidth: 1,
+      borderColor: colors[theme].RED_300,
+    },
+    errorText: {
+      color: colors[theme].RED_500,
+      fontSize: 12,
+      paddingTop: 5,
+    },
+    multiline: {
+      height: 150,
+      paddingVertical: 10,
+      textAlignVertical: 'top',
+    },
+    disabled: {
+      backgroundColor: colors[theme].GRAY_200,
+      color: colors[theme].GRAY_700,
+    },
+  });
 
 export default InputField;

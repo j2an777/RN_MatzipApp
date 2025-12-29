@@ -10,13 +10,16 @@ import Ionicons from '@react-native-vector-icons/ionicons';
 import { useNavigation } from '@react-navigation/native';
 import { LatLng } from 'react-native-maps';
 
+import useThemeStore, { Theme } from '@/store/theme';
 import useLocationStore from '@/store/location';
 import { RegionInfo } from '@/types/region';
 import { colors } from '@/constants/colors';
 
 const SearchRegionResult = ({ regionInfo }: { regionInfo: RegionInfo[] }) => {
-  const navigation = useNavigation();
   const { setMoveLocation, setSelectLocation } = useLocationStore();
+  const navigation = useNavigation();
+  const { theme } = useThemeStore();
+  const styles = styling(theme);
 
   const handlePressRegionInfo = (latitude: string, longitude: string) => {
     const regionLocation = {
@@ -46,7 +49,11 @@ const SearchRegionResult = ({ regionInfo }: { regionInfo: RegionInfo[] }) => {
             ]}
             onPress={() => handlePressRegionInfo(info.y, info.x)}>
             <View style={styles.placeNameContainer}>
-              <Ionicons name="location" size={10} color={colors.PINK_700} />
+              <Ionicons
+                name="location"
+                size={10}
+                color={colors[theme].PINK_700}
+              />
               <Text
                 style={styles.placeText}
                 ellipsizeMode="tail"
@@ -74,60 +81,61 @@ const SearchRegionResult = ({ regionInfo }: { regionInfo: RegionInfo[] }) => {
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    borderWidth: 1,
-    borderColor: colors.GRAY_200,
-    borderRadius: 5,
-    height: Dimensions.get('screen').height / 2,
-    marginVertical: 5,
-    width: '100%',
-  },
-  scrollContainer: {
-    padding: 10,
-  },
-  itemBorder: {
-    marginHorizontal: 5,
-    paddingVertical: 10,
-    borderBottomColor: colors.GRAY_300,
-    borderBottomWidth: StyleSheet.hairlineWidth,
-    gap: 3,
-  },
-  noItemBorder: {
-    borderBottomWidth: 0,
-    paddingBottom: 20,
-  },
-  placeNameContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 5,
-  },
-  placeText: {
-    color: colors.BLACK,
-    flexShrink: 1,
-    fontSize: 16,
-    fontWeight: '600',
-  },
-  categoryContainer: {
-    flexDirection: 'row',
-    gap: 10,
-  },
-  distanceText: {
-    color: colors.BLACK,
-  },
-  subInfoText: {
-    color: colors.GRAY_500,
-    flexShrink: 1,
-  },
-  emptyContainer: {
-    flex: 1,
-    alignItems: 'center',
-    marginTop: 50,
-  },
-  emptyText: {
-    color: colors.GRAY_500,
-    fontSize: 16,
-  },
-});
+const styling = (theme: Theme) =>
+  StyleSheet.create({
+    container: {
+      borderWidth: 1,
+      borderColor: colors[theme].GRAY_200,
+      borderRadius: 5,
+      height: Dimensions.get('screen').height / 2,
+      marginVertical: 5,
+      width: '100%',
+    },
+    scrollContainer: {
+      padding: 10,
+    },
+    itemBorder: {
+      marginHorizontal: 5,
+      paddingVertical: 10,
+      borderBottomColor: colors[theme].GRAY_300,
+      borderBottomWidth: StyleSheet.hairlineWidth,
+      gap: 3,
+    },
+    noItemBorder: {
+      borderBottomWidth: 0,
+      paddingBottom: 20,
+    },
+    placeNameContainer: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      gap: 5,
+    },
+    placeText: {
+      color: colors[theme].BLACK,
+      flexShrink: 1,
+      fontSize: 16,
+      fontWeight: '600',
+    },
+    categoryContainer: {
+      flexDirection: 'row',
+      gap: 10,
+    },
+    distanceText: {
+      color: colors[theme].BLACK,
+    },
+    subInfoText: {
+      color: colors[theme].GRAY_500,
+      flexShrink: 1,
+    },
+    emptyContainer: {
+      flex: 1,
+      alignItems: 'center',
+      marginTop: 50,
+    },
+    emptyText: {
+      color: colors[theme].GRAY_500,
+      fontSize: 16,
+    },
+  });
 
 export default SearchRegionResult;
