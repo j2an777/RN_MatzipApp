@@ -1,10 +1,11 @@
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { MutationFunction, useMutation, useQuery } from '@tanstack/react-query';
 import { useEffect } from 'react';
 
 import {
   editProfile,
   getAccessToken,
   getProfile,
+  kakaoLogin,
   logout,
   postLogin,
   postSignup,
@@ -16,9 +17,9 @@ import {
 import { UseMutationCustomOptions, UseQueryCustomOptions } from '@/types/api';
 import { queryKeys, storageKeys } from '@/constants/keys';
 import { removeHeader, setHeader } from '@/utils/header';
+import { Profile, ResponseToken } from '@/types/domain';
 import { numbers } from '@/constants/numbers';
 import queryClient from '@/api/queryClient';
-import { Profile } from '@/types/domain';
 
 const useSignup = (mutationOptions?: UseMutationCustomOptions) => {
   return useMutation({
@@ -28,9 +29,12 @@ const useSignup = (mutationOptions?: UseMutationCustomOptions) => {
   });
 };
 
-const useLogin = (mutationOptions?: UseMutationCustomOptions) => {
+const useLogin = <T>(
+  loginAPI: MutationFunction<ResponseToken, T>,
+  mutationOptions?: UseMutationCustomOptions,
+) => {
   return useMutation({
-    mutationFn: postLogin,
+    mutationFn: loginAPI,
     onSuccess: async ({ accessToken, refreshToken }) => {
       setHeader(queryKeys.AUTHORIZATION, `Bearer ${accessToken}`);
       await setEncryptStorage(storageKeys.REFRESH_TOKEN, refreshToken);
@@ -41,6 +45,14 @@ const useLogin = (mutationOptions?: UseMutationCustomOptions) => {
     throwOnError: error => Number(error.response?.status) >= 500,
     ...mutationOptions,
   });
+};
+
+const useEmailLogin = (mutationOptions?: UseMutationCustomOptions) => {
+  return useLogin(postLogin, mutationOptions);
+};
+
+const useKakaoLogin = (mutationOptions?: UseMutationCustomOptions) => {
+  return useLogin(kakaoLogin, mutationOptions);
 };
 
 const useGetRefreshToken = () => {
@@ -109,7 +121,8 @@ const useUpdateProfile = (mutationOptions?: UseMutationCustomOptions) => {
 
 const useAuth = () => {
   const signupMutation = useSignup();
-  const loginMutation = useLogin();
+  const loginMutation = useEmailLogin();
+  const kakaoLoginMutation = useKakaoLogin();
   const refreshTokenQuery = useGetRefreshToken();
   const { data, isSuccess: isLogin } = useGetProfile({
     enabled: refreshTokenQuery.isSuccess,
@@ -127,6 +140,7 @@ const useAuth = () => {
     },
     signupMutation,
     loginMutation,
+    kakaoLoginMutation,
     isLogin,
     logoutMutation,
     profileMutation,
