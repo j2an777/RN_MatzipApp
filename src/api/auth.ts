@@ -21,7 +21,7 @@ const postLogin = async ({
 };
 
 const kakaoLogin = async (token: string): Promise<ResponseToken> => {
-  const { data } = await instance.post('/auth/oauth/kako', token);
+  const { data } = await instance.post('/auth/oauth/kakao', { token });
 
   return data;
 };
