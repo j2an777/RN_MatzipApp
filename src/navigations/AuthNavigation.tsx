@@ -39,7 +39,7 @@ const AuthNavigation = () => {
         options={{ title: '로그인' }}
       />
       <Stack.Screen
-        name="AuthHome"
+        name="Signup"
         component={SignupScreen}
         options={{ title: '회원가입' }}
       />
