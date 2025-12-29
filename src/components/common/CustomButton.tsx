@@ -4,17 +4,19 @@ import {
   StyleProp,
   StyleSheet,
   Text,
+  TextStyle,
   ViewStyle,
 } from 'react-native';
 
-import { colors } from '@/constants/colors';
 import useThemeStore, { Theme } from '@/store/theme';
+import { colors } from '@/constants/colors';
 
 interface CustomButtonProps extends PressableProps {
   label: string | React.ReactNode;
   variant?: 'filled' | 'outlined';
   size?: 'large' | 'small';
   style?: StyleProp<ViewStyle>;
+  textStyle?: StyleProp<TextStyle>;
 }
 
 const CustomButton = ({
@@ -22,6 +24,7 @@ const CustomButton = ({
   variant = 'filled',
   size = 'large',
   style = null,
+  textStyle = null,
   ...props
 }: CustomButtonProps) => {
   const { theme } = useThemeStore();
@@ -38,7 +41,7 @@ const CustomButton = ({
       ]}
       {...props}>
       {typeof label === 'string' ? (
-        <Text style={styles[`${variant}Text`]}>{label}</Text>
+        <Text style={[styles[`${variant}Text`], textStyle]}>{label}</Text>
       ) : (
         label
       )}
