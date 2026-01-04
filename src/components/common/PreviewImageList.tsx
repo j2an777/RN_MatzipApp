@@ -1,4 +1,4 @@
-import { Image, Platform, Pressable, StyleSheet } from 'react-native';
+import { Image, Pressable, StyleSheet } from 'react-native';
 import Ionicons from '@react-native-vector-icons/ionicons';
 import { ScrollView } from 'react-native-gesture-handler';
 import {
@@ -12,7 +12,6 @@ import { FeedStackParamList } from '@/types/navigation';
 import useThemeStore, { Theme } from '@/store/theme';
 import { colors } from '@/constants/colors';
 import { ImageUri } from '@/types/domain';
-import { baseUrls } from '@/api';
 
 interface Props {
   imageUris: ImageUri[];
@@ -43,9 +42,7 @@ const PreviewImageList = ({ imageUris, onDelete }: Props) => {
             <Image
               style={styles.imageBox}
               source={{
-                uri: `${
-                  Platform.OS === 'ios' ? baseUrls.ios : baseUrls.android
-                }/${uri}`,
+                uri: uri,
               }}
               resizeMode="cover"
             />
