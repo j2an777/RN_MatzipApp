@@ -23,6 +23,8 @@ const useImagePicker = ({
   const [imageUris, setImageUris] = useState<ImageUri[]>(initialImages);
 
   const addImageUris = (uris: string[]) => {
+    if (!Array.isArray(uris)) return;
+
     setImageUris(prev => [...prev, ...uris.map(uri => ({ uri }))]);
   };
 
